@@ -1,0 +1,15 @@
+﻿@helper  PriorityToIcon(int priority)
+{
+    if (priority == 1)
+    {
+        <span class="glyphicon glyphicon-signal text-success" data-toggle="tooltip" data-placement="top" title="Low Priority"></span>
+    }
+    else if (priority == 2)
+    {
+        <span class="glyphicon glyphicon-signal text-warning" data-toggle="tooltip" data-placement="top" title="Medium Priority"></span>
+    }
+    else if (priority == 3)
+    {
+        <span class="glyphicon glyphicon-signal text-danger" data-toggle="tooltip" data-placement="top" title="High Priority"></span>
+    }
+}
