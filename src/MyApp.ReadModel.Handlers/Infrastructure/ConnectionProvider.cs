@@ -3,7 +3,7 @@ using System.Data.SqlClient;
 
 namespace MyApp.ReadModel.Handlers
 {
-    public class MyAppConnectionProvider : IConnectionProvider
+    public class ConnectionProvider : IConnectionProvider
     {
         public System.Data.IDbConnection GetOpenConnection()
         {            

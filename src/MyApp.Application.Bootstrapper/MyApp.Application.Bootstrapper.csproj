@@ -77,10 +77,8 @@
     </Compile>
     <Compile Include="ApplicationBootstrap.cs" />
     <Compile Include="ApplicationBootstrapConfig.cs" />
-    <Compile Include="Handlers\ApplicationExceptionHandler.cs" />
     <Compile Include="Handlers\UnitOfWorkHandler.cs" />
     <Compile Include="LoggerSinkConfigurationExtensions.cs" />
-    <Compile Include="MyAppConnectionProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

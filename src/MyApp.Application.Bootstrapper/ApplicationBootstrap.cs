@@ -23,7 +23,7 @@ namespace MyApp.Application.Bootstrapper
             container.Register<ITaskRepository, EfTaskRepository>();
             container.Register<IUnitOfWork>(() => new UnitOfWork(new MyAppContext().AsCommandContext()), config.UnitOfWorkLifestyle);
             container.Register<IQueryContext>(() => new QueryContext(new MyAppContext().AsQueryContext()));
-            container.RegisterSingle<IConnectionProvider, MyAppConnectionProvider>();
+            container.RegisterSingle<IConnectionProvider, ConnectionProvider>();
             container.RegisterManyForOpenGeneric(typeof(IValidator<>), container.RegisterAll, config.Assemblies);
 
             container.RegisterRequestHandlerDecorators(GetCommandDecorators(), context =>

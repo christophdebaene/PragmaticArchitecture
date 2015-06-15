@@ -23,23 +23,20 @@ namespace MyApp.Application.Bootstrapper
 
             config.Assemblies = new List<Assembly>
                 {
-                    typeof(MyApp.Application.Bootstrapper.ApplicationBootstrap).Assembly, // MyApp.Application.Bootstrapper
-                    typeof(MyApp.Application.Commands.CompleteTask).Assembly, // MyApp.Application
-                    typeof(MyApp.Domain.Model.Task).Assembly, // MyApp.Domain
-                    typeof(MyApp.Domain.EntityFramework.IUnitOfWork).Assembly, // MyApp.Domain.EntityFramework
-                    typeof(MyApp.ReadModel.Queries.GetTasks).Assembly, // MyApp.ReadModel
-                    typeof(MyApp.ReadModel.Handlers.IQueryContext).Assembly, // MyApp.ReadModel.Handlers
+                    // MyApp.Application
+                    typeof(MyApp.Application.Commands.CompleteTask).Assembly, 
+                    // MyApp.Application.Bootstrapper
+                    typeof(MyApp.Application.Bootstrapper.ApplicationBootstrap).Assembly,                     
+                    // MyApp.Domain
+                    typeof(MyApp.Domain.Model.Task).Assembly, 
+                    // MyApp.Domain.EntityFramework
+                    typeof(MyApp.Domain.EntityFramework.IUnitOfWork).Assembly, 
+                    // MyApp.ReadModel
+                    typeof(MyApp.ReadModel.Queries.GetTasks).Assembly, 
+                    // MyApp.ReadModel.Handlers
+                    typeof(MyApp.ReadModel.Handlers.IQueryContext).Assembly, 
                 };
-
-            //config.Assemblies = new List<Assembly>
-            //    {
-            //         Assembly.Load("MyApp.Application"),
-            //         Assembly.Load("MyApp.Domain"),
-            //         Assembly.Load("MyApp.Domain.EntityFramework"),
-            //         Assembly.Load("MyApp.ReadModel"),
-            //         Assembly.Load("MyApp.ReadModel.Handlers")
-            //    };
-
+            
             return config;
         }
     }
