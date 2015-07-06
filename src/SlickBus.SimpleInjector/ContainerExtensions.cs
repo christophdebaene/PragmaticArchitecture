@@ -11,7 +11,7 @@ namespace SlickBus
         public static void RegisterMediator(this Container container, params Assembly[] assemblies)
         {
             container.Register<IMediator, SimpleInjectorMediator>();
-            container.RegisterManyForOpenGeneric(typeof(IRequestHandler<,>), assemblies);
+            container.Register(typeof(IRequestHandler<,>), assemblies);
         }
 
         public static void RegisterRequestHandlerDecorators(this Container container, IEnumerable<Type> decoratorTypes)

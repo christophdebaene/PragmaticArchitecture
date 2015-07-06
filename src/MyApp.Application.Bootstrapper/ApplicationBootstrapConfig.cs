@@ -24,19 +24,19 @@ namespace MyApp.Application.Bootstrapper
             config.Assemblies = new List<Assembly>
                 {
                     // MyApp.Application
-                    typeof(MyApp.Application.Commands.CompleteTask).Assembly, 
+                    typeof(MyApp.Application.Commands.CompleteTask).Assembly,
                     // MyApp.Application.Bootstrapper
-                    typeof(MyApp.Application.Bootstrapper.ApplicationBootstrap).Assembly,                     
+                    typeof(MyApp.Application.Bootstrapper.ApplicationBootstrap).Assembly,
                     // MyApp.Domain
-                    typeof(MyApp.Domain.Model.Task).Assembly, 
+                    typeof(MyApp.Domain.Model.Task).Assembly,
                     // MyApp.Domain.EntityFramework
-                    typeof(MyApp.Domain.EntityFramework.IUnitOfWork).Assembly, 
+                    typeof(MyApp.Domain.EntityFramework.IUnitOfWork).Assembly,
                     // MyApp.ReadModel
-                    typeof(MyApp.ReadModel.Queries.GetTasks).Assembly, 
+                    typeof(MyApp.ReadModel.Queries.GetTasks).Assembly,
                     // MyApp.ReadModel.Handlers
-                    typeof(MyApp.ReadModel.Handlers.IQueryContext).Assembly, 
+                    typeof(MyApp.ReadModel.Handlers.IQueryContext).Assembly,
                 };
-            
+
             return config;
         }
     }

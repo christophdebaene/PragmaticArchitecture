@@ -22,9 +22,17 @@ namespace MyApp.Application.Bootstrapper
             container.RegisterMediator(config.Assemblies.ToArray());
             container.Register<ITaskRepository, EfTaskRepository>();
             container.Register<IUnitOfWork>(() => new UnitOfWork(new MyAppContext().AsCommandContext()), config.UnitOfWorkLifestyle);
-            container.Register<IQueryContext>(() => new QueryContext(new MyAppContext().AsQueryContext()));
-            container.RegisterSingle<IConnectionProvider, ConnectionProvider>();
-            container.RegisterManyForOpenGeneric(typeof(IValidator<>), container.RegisterAll, config.Assemblies);
+            container.Register<IQueryContext>(() => new QueryContext(new MyAppContext().AsQueryContext()), config.UnitOfWorkLifestyle);
+            container.RegisterSingleton<IConnectionProvider, ConnectionProvider>();
+            container.RegisterCollection(typeof(IValidator<>), config.Assemblies);
+
+            var commandDecorators = new List<Type>
+            {
+                typeof(UnitOfWorkHandler<,>),
+                typeof(TransactionHandler<,>),
+                typeof(ValidatorHandler<,>),
+                typeof(LogHandler<,>)
+            };
 
             container.RegisterRequestHandlerDecorators(GetCommandDecorators(), context =>
             {
