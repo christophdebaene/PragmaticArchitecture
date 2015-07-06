@@ -19,4 +19,50 @@ This sample application illustrates a [Clean Architecture] (https://blog.8thligh
 | **UI Layer** | |
 | MyApp.Web | [ASP.NET MVC] (http://www.asp.net/mvc) project using the `IMediator` inside the controller to process query and command messages. |
 
-*Means that the project should be independent of infrastructure (Database, UI, Container, Frameworks, etc.)
+*The project may not contain references to infrastructure elements (database, UI, container, frameworks, etc.)
+
+### Command/Query Separation
+
+In this example to distinguish between a command or query, we simply use the namespace of the message where it resides.
+Consequently we apply a different set of decorators. For the query part we don't need a a [Unit of Work] (http://martinfowler.com/eaaCatalog/unitOfWork.html) or Transactions for example.
+
+#### Command Layer
+
+```C#
+var commandDecorators = new List<Type>
+{
+    typeof(UnitOfWorkHandler<,>),
+    typeof(TransactionHandler<,>),
+    typeof(ValidatorHandler<,>),
+    typeof(LogHandler<,>)
+};
+
+container.RegisterRequestHandlerDecorators(commandDecorators, context =>
+{
+    var argument = context.ServiceType.GetGenericArguments()[0];
+    return argument.Namespace.EndsWith("Commands");
+});
+```
+
+#### Query Layer
+
+```C#
+var queryDecorators = new List<Type>
+{
+    typeof(ValidatorHandler<,>),
+    typeof(StopwatchHandler<,>)
+};
+
+container.RegisterRequestHandlerDecorators(queryDecorators, context =>
+{
+    var argument = context.ServiceType.GetGenericArguments()[0];
+    return argument.Namespace.EndsWith("Queries");
+});
+```
+Another possibility is to have explicitly an `ICommand` and `IQuery` interface.
+
+Some implementations of the mediator/bus pattern
+* [MediatR] (https://github.com/jbogard/MediatR)
+* [ShortBus] (https://github.com/mhinze/ShortBus)
+* [CQRSlite] (https://github.com/gautema/CQRSlite/tree/master/Framework/CQRSlite)
+* [Brighter] (https://github.com/iancooper/Paramore)
