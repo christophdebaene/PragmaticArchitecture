@@ -2,7 +2,7 @@
 
 namespace SlickBus
 {
-    public interface IRequest<out TResponse>
+    public interface IRequest<TResponse>
     {
         Guid Id { get; }
     }
