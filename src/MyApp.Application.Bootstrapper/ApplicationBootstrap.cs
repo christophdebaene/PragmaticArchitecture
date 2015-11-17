@@ -1,10 +1,10 @@
 ﻿using FluentValidation;
 using MyApp.Domain.EntityFramework;
+using MyApp.Domain.Model;
 using MyApp.Domain.Repositories;
 using MyApp.ReadModel.Handlers;
 using Serilog;
 using SimpleInjector;
-using SimpleInjector.Extensions;
 using SlickBus;
 using System;
 using System.Collections.Generic;
@@ -24,6 +24,7 @@ namespace MyApp.Application.Bootstrapper
             container.Register<IUnitOfWork>(() => new UnitOfWork(new MyAppContext().AsCommandContext()), config.UnitOfWorkLifestyle);
             container.Register<IQueryContext>(() => new QueryContext(new MyAppContext().AsQueryContext()), config.UnitOfWorkLifestyle);
             container.RegisterSingleton<IConnectionProvider, ConnectionProvider>();
+            container.RegisterSingleton<ISystemClock, SystemClock>();
             container.RegisterCollection(typeof(IValidator<>), config.Assemblies);
 
             var commandDecorators = new List<Type>

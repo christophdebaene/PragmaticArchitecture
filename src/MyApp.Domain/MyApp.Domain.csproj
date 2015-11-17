@@ -40,7 +40,7 @@
     <Compile Include="..\GlobalAssemblyInfo.cs">
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Model\Clock.cs" />
+    <Compile Include="Model\ISystemClock.cs" />
     <Compile Include="Model\Task.cs" />
     <Compile Include="Model\TaskPriority.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -24,14 +24,14 @@ namespace MyApp.Domain.Model
         {
         }
 
-        public Task(Guid id, string title)
+        public Task(Guid id, string title, ISystemClock systemClock)
         {
             Id = id;
             Title = title;
 
             Priority = TaskPriority.Medium;
-            CreationDate = Clock.Now();
-            DueDate = Clock.Now().AddDays(1);
+            CreationDate = systemClock.UtcNow;
+            DueDate = systemClock.UtcNow.AddDays(1);
             IsCompleted = false;
         }
 

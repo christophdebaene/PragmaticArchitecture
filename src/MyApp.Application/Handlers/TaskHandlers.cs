@@ -15,19 +15,24 @@ namespace MyApp.Application.Handlers
         IRequestHandler<SetTaskDueDate, Unit>,
         IRequestHandler<DeleteTask, Unit>
     {
+        private readonly ISystemClock _systemClock;
         private readonly ITaskRepository _taskRepository;
 
-        public TaskHandlers(ITaskRepository taskRepository)
+        public TaskHandlers(ITaskRepository taskRepository, ISystemClock systemClock)
         {
             if (taskRepository == null)
                 throw new ArgumentNullException("taskRepository");
 
+            if (systemClock == null)
+                throw new ArgumentNullException("systemClock");
+
             _taskRepository = taskRepository;
+            _systemClock = systemClock;
         }
 
         public Unit Handle(CreateNewTask command)
         {
-            var task = new Task(command.TaskId, command.Title);
+            var task = new Task(command.TaskId, command.Title, _systemClock);
             _taskRepository.Add(task);
 
             return Unit.Value;
