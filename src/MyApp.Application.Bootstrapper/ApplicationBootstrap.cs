@@ -4,6 +4,8 @@ using MyApp.Domain.Model;
 using MyApp.Domain.Repositories;
 using MyApp.ReadModel.Handlers;
 using Serilog;
+using Serilog.Formatting.Json;
+using Serilog.Sinks.File;
 using SimpleInjector;
 using SlickBus;
 using System;
@@ -18,6 +20,8 @@ namespace MyApp.Application.Bootstrapper
             var container = new Container();
             container.Options.AllowOverridingRegistrations = true;
             container.Register<IServiceProvider>(() => container);
+
+            ConfigureSerilog();
 
             container.RegisterMediator(config.Assemblies.ToArray());
             container.Register<ITaskRepository, EfTaskRepository>();
@@ -68,8 +72,8 @@ namespace MyApp.Application.Bootstrapper
         {
             Log.Logger = new LoggerConfiguration()
               .Enrich.FromLogContext()
-                .WriteTo.RollingFileAsJson(@"myapp-application.json")
-                .WriteTo.RollingFileAsText(@"myapp-application.txt")
+                .WriteTo.File(new JsonFormatter(), @"myapp-application.json")
+                .WriteTo.File(@"myapp-application.txt")
               .CreateLogger();
         }
     }
