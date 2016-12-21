@@ -1,6 +1,7 @@
 ﻿using MyApp.Domain.EntityFramework;
 using MyApp.Web.Bootstrapper;
 using SimpleInjector.Integration.Web.Mvc;
+using System;
 using System.Data.Entity;
 using System.Web.Mvc;
 using System.Web.Routing;
@@ -11,6 +12,8 @@ namespace MyApp.Web
     {
         protected void Application_Start()
         {
+            Environment.SetEnvironmentVariable("BASEDIR", AppDomain.CurrentDomain.BaseDirectory);
+
             ConfigureEntityFramework();
             ConfigureContainer();
 

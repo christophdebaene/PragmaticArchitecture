@@ -4,8 +4,6 @@ using MyApp.Domain.Model;
 using MyApp.Domain.Repositories;
 using MyApp.ReadModel.Handlers;
 using Serilog;
-using Serilog.Formatting.Json;
-using Serilog.Sinks.File;
 using SimpleInjector;
 using SlickBus;
 using System;
@@ -70,11 +68,14 @@ namespace MyApp.Application.Bootstrapper
 
         private static void ConfigureSerilog()
         {
+            Serilog.Debugging.SelfLog.Enable(msg =>
+            {
+                System.Diagnostics.Debug.WriteLine(msg);
+            });
+
             Log.Logger = new LoggerConfiguration()
-              .Enrich.FromLogContext()
-                .WriteTo.File(new JsonFormatter(), @"myapp-application.json")
-                .WriteTo.File(@"myapp-application.txt")
-              .CreateLogger();
+                .ReadFrom.AppSettings()
+                .CreateLogger();
         }
     }
 }
