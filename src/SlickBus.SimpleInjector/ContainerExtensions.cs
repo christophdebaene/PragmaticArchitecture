@@ -1,5 +1,4 @@
 ﻿using SimpleInjector;
-using SimpleInjector.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
