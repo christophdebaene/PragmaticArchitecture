@@ -14,7 +14,7 @@ namespace MyApp.Site.Pages.Todo
         private readonly IMediator _mediator;
         public DetailModel(IMediator mediator) => _mediator = mediator;
         public TodoDetailModel Data { get; private set; }
-        public async Task OnGetAsync(Guid id) => Data = await _mediator.Send(new GetTodoDetail(id));
+        public async Task OnGetAsync(Guid id) => Data = await _mediator.Send(new GetTodoDetail { TodoId = id });
 
         public async Task<IActionResult> OnPostIncreasePriorityAsync(Guid id)
         {
@@ -40,7 +40,7 @@ namespace MyApp.Site.Pages.Todo
         }
         public async Task<IActionResult> OnPostCompleteAsync(Guid id)
         {
-            await _mediator.Send(new CompleteTodo(id));
+            await _mediator.Send(new CompleteTodo { TodoId = id });
             return RedirectToPage("./Dashboard");
         }
     }

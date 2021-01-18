@@ -4,12 +4,11 @@ using System;
 
 namespace MyApp.Application.Commands
 {
-    public class CreateNewTask : IRequest<Unit>
+    public record CreateNewTask : IRequest<Unit>
     {
-        public Guid TodoId { get; set; }
-        public string Title { get; set; }
+        public Guid TodoId { get; init; }
+        public string Title { get; init; }
     }
-
     public class CreateNewTaskValidator : AbstractValidator<CreateNewTask>
     {
         public CreateNewTaskValidator()

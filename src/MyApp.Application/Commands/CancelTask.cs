@@ -3,8 +3,8 @@ using System;
 
 namespace MyApp.Application.Commands
 {
-    public class CancelTask : IRequest<Unit>
+    public record CancelTask : IRequest<Unit>
     {
-        public Guid TaskId { get; set; }
+        public Guid TaskId { get; init; }
     }
 }

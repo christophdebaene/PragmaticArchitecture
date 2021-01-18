@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace MyApp.ReadModel.Queries
 {
-    public class GetTasks : IRequest<IReadOnlyList<TodoDetailModel>>
+    public record GetTasks : IRequest<IReadOnlyList<TodoDetailModel>>
     {
     }
 }

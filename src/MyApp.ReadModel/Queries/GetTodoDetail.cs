@@ -4,12 +4,8 @@ using System;
 
 namespace MyApp.ReadModel.Queries
 {
-    public class GetTodoDetail : IRequest<TodoDetailModel>
+    public record GetTodoDetail : IRequest<TodoDetailModel>
     {
-        public Guid TodoId { get; }
-        public GetTodoDetail(Guid taskId)
-        {
-            TodoId = taskId;
-        }
+        public Guid TodoId { get; init; }        
     }
 }
