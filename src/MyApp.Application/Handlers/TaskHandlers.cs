@@ -1,79 +1,66 @@
-﻿using MyApp.Application.Commands;
+﻿using MediatR;
+using MyApp.Application.Commands;
 using MyApp.Domain.Model;
-using MyApp.Domain.Repositories;
-using SlickBus;
 using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace MyApp.Application.Handlers
 {
     public class TaskHandlers :
 
         IRequestHandler<CreateNewTask, Unit>,
-        IRequestHandler<CompleteTask, Unit>,
+        IRequestHandler<CompleteTodo, Unit>,
         IRequestHandler<IncreasePriority, Unit>,
         IRequestHandler<DecreasePriority, Unit>,
         IRequestHandler<SetTaskDueDate, Unit>,
         IRequestHandler<DeleteTask, Unit>
     {
         private readonly ISystemClock _systemClock;
-        private readonly ITaskRepository _taskRepository;
-
-        public TaskHandlers(ITaskRepository taskRepository, ISystemClock systemClock)
+        private readonly MyAppContext _context;
+        public TaskHandlers(MyAppContext context, ISystemClock systemClock)
         {
-            if (taskRepository == null)
-                throw new ArgumentNullException("taskRepository");
-
-            if (systemClock == null)
-                throw new ArgumentNullException("systemClock");
-
-            _taskRepository = taskRepository;
-            _systemClock = systemClock;
+            _context = context ?? throw new ArgumentNullException(nameof(context));
+            _systemClock = systemClock ?? throw new ArgumentNullException(nameof(systemClock));
         }
-
-        public Unit Handle(CreateNewTask command)
+        public async Task<Unit> Handle(CreateNewTask command, CancellationToken cancellationToken)
         {
-            var task = new Task(command.TaskId, command.Title, _systemClock);
-            _taskRepository.Add(task);
+            var task = new Todo(command.TodoId, command.Title, _systemClock);
+            await _context.AddAsync(task);
+            return Unit.Value;
+        }
+        public async Task<Unit> Handle(CompleteTodo command, CancellationToken cancellationToken)
+        {
+            var todo = await _context.Set<Todo>().FindAsync(command.TodoId);
+            todo.Complete();
 
             return Unit.Value;
         }
-
-        public Unit Handle(CompleteTask command)
+        public async Task<Unit> Handle(IncreasePriority command, CancellationToken cancellationToken)
         {
-            var task = _taskRepository.GetById(command.TaskId);
-            task.Complete();
+            var todo = await _context.Set<Todo>().FindAsync(command.TodoId);
+            todo.IncreasePriority();
 
             return Unit.Value;
         }
-
-        public Unit Handle(IncreasePriority command)
+        public async Task<Unit> Handle(DecreasePriority command, CancellationToken cancellationToken)
         {
-            var task = _taskRepository.GetById(command.TaskId);
-            task.IncreasePriority();
+            var todo = await _context.Set<Todo>().FindAsync(command.TodoId);
+            todo.DecreasePriority();
 
             return Unit.Value;
         }
-
-        public Unit Handle(DecreasePriority command)
+        public async Task<Unit> Handle(SetTaskDueDate command, CancellationToken cancellationToken)
         {
-            var task = _taskRepository.GetById(command.TaskId);
-            task.DecreasePriority();
+            var todo = await _context.Set<Todo>().FindAsync(command.TodoId);
+            todo.SetDueDate(command.DueDate);
 
             return Unit.Value;
         }
-
-        public Unit Handle(SetTaskDueDate command)
+        public async Task<Unit> Handle(DeleteTask command, CancellationToken cancellationToken)
         {
-            var task = _taskRepository.GetById(command.TaskId);
-            task.SetDueDate(command.DueDate);
-
-            return Unit.Value;
-        }
-
-        public Unit Handle(DeleteTask command)
-        {
-            var task = _taskRepository.GetById(command.TaskId);
-            _taskRepository.Delete(task);
+            var todo = await _context.Set<Todo>().FindAsync(command.TodoId);
+            _context.Set<Todo>().Remove(todo);
 
             return Unit.Value;
         }

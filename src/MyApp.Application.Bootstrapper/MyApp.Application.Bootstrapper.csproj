@@ -1,121 +1,19 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{43534A90-0FF2-4EDD-9444-D08D9F6A8491}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MyApp.Application.Bootstrapper</RootNamespace>
-    <AssemblyName>MyApp.Application.Bootstrapper</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
-    <TargetFrameworkProfile />
+    <TargetFramework>netstandard2.1</TargetFramework>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="FluentValidation, Version=6.2.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\FluentValidation.6.2.1.0\lib\Net45\FluentValidation.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Serilog, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
-      <HintPath>..\packages\Serilog.2.3.0\lib\net46\Serilog.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Serilog.Settings.AppSettings, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
-      <HintPath>..\packages\Serilog.Settings.AppSettings.2.0.0\lib\net45\Serilog.Settings.AppSettings.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Serilog.Sinks.File, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
-      <HintPath>..\packages\Serilog.Sinks.File.3.2.0\lib\net45\Serilog.Sinks.File.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="SimpleInjector, Version=3.3.2.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
-      <HintPath>..\packages\SimpleInjector.3.3.2\lib\net45\SimpleInjector.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="SimpleInjector.Extensions.LifetimeScoping, Version=3.3.2.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
-      <HintPath>..\packages\SimpleInjector.Extensions.LifetimeScoping.3.3.2\lib\net40-client\SimpleInjector.Extensions.LifetimeScoping.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.Configuration" />
-    <Reference Include="System.Core" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="Serilog" Version="2.10.0" />
   </ItemGroup>
+
   <ItemGroup>
-    <Compile Include="..\GlobalAssemblyInfo.cs">
-      <Link>Properties\GlobalAssemblyInfo.cs</Link>
-    </Compile>
-    <Compile Include="ApplicationBootstrap.cs" />
-    <Compile Include="ApplicationBootstrapConfig.cs" />
-    <Compile Include="Handlers\UnitOfWorkHandler.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
+    <ProjectReference Include="..\MyApp.Application\MyApp.Application.csproj" />
+    <ProjectReference Include="..\MyApp.ReadModel.Handlers\MyApp.ReadModel.Handlers.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\MyApp.Application\MyApp.Application.csproj">
-      <Project>{9ae7d258-1b72-4028-a982-5bf0ebd32bab}</Project>
-      <Name>MyApp.Application</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MyApp.Domain.EntityFramework\MyApp.Domain.EntityFramework.csproj">
-      <Project>{5a3cd39d-5e77-418a-a05c-70a5106c41d3}</Project>
-      <Name>MyApp.Domain.EntityFramework</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MyApp.Domain\MyApp.Domain.csproj">
-      <Project>{27c0db67-94ae-4720-b63d-66e486e5596d}</Project>
-      <Name>MyApp.Domain</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MyApp.ReadModel.Handlers\MyApp.ReadModel.Handlers.csproj">
-      <Project>{73e065b4-60b7-4342-8f2e-b6defcdda94a}</Project>
-      <Name>MyApp.ReadModel.Handlers</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MyApp.ReadModel\MyApp.ReadModel.csproj">
-      <Project>{42a32898-dfa0-43a3-adcc-4d3b3b3970a3}</Project>
-      <Name>MyApp.ReadModel</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SlickBus.Contrib\SlickBus.Contrib.csproj">
-      <Project>{17a8215f-1df2-4409-885f-f40359a0ca4b}</Project>
-      <Name>SlickBus.Contrib</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SlickBus.SimpleInjector\SlickBus.SimpleInjector.csproj">
-      <Project>{f39ec6ab-67c2-42aa-8f88-1db1602d0b94}</Project>
-      <Name>SlickBus.SimpleInjector</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SlickBus\SlickBus.csproj">
-      <Project>{03918291-8444-427f-8d40-a75cbf1d0cc1}</Project>
-      <Name>SlickBus</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+
 </Project>

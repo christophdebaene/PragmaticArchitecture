@@ -1,9 +1,9 @@
-﻿using MyApp.ReadModel.Model;
-using SlickBus;
+﻿using MediatR;
+using MyApp.ReadModel.Model;
 
 namespace MyApp.ReadModel.Queries
 {
-    public class GetTaskSummary : Request<TaskSummaryModel>
+    public class GetTaskSummary : IRequest<TaskSummaryModel>
     {
     }
 }

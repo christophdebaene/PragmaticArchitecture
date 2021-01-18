@@ -1,15 +1,14 @@
-﻿using SlickBus;
+﻿using MediatR;
 using System;
 
 namespace MyApp.Application.Commands
 {
-    public class DeleteTask : Request<Unit>
+    public class DeleteTask : IRequest<Unit>
     {
-        public Guid TaskId { get; private set; }
-
+        public Guid TodoId { get; }
         public DeleteTask(Guid id)
         {
-            TaskId = id;
+            TodoId = id;
         }
     }
 }

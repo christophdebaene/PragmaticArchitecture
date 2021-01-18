@@ -1,0 +1,13 @@
+﻿@page
+@model MyApp.Site.Pages.Todo.DetailModel
+@{
+}
+
+<h1>@Model.Data.Title</h1>
+<h3>Priority: @Model.Data.Priority</h3>
+
+<form method="post">
+    <button type="submit" asp-page-handler="IncreasePriority" asp-route-id="@Model.Data.Id">Increase Priority</button>
+    <button type="submit" asp-page-handler="DecreasePriority" asp-route-id="@Model.Data.Id">Decrease Priority</button>
+    <button type="submit" asp-page-handler="Complete" asp-route-id="@Model.Data.Id">Complete</button>
+</form>

@@ -1,53 +1,54 @@
-﻿using MyApp.Domain.Model;
+﻿using MediatR;
+using Microsoft.EntityFrameworkCore;
+using MyApp.Domain.Model;
 using MyApp.ReadModel.Model;
 using MyApp.ReadModel.Queries;
-using SlickBus;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace MyApp.ReadModel.Handlers
 {
     public class TaskQueryHandlers :
 
-        IRequestHandler<GetTasks, IReadOnlyList<TaskDetailModel>>,
-        IRequestHandler<GetTaskDetail, TaskDetailModel>
+        IRequestHandler<GetTasks, IReadOnlyList<TodoDetailModel>>,
+        IRequestHandler<GetTodoDetail, TodoDetailModel>
     {
-        private readonly IQueryContext _context;
-
-        public TaskQueryHandlers(IQueryContext context)
+        private readonly MyAppContext _context;
+        public TaskQueryHandlers(MyAppContext context)
         {
             if (context == null)
-                throw new ArgumentNullException("context");
+                throw new ArgumentNullException(nameof(context));
 
             _context = context;
         }
 
-        public IReadOnlyList<TaskDetailModel> Handle(GetTasks query)
+        public async Task<IReadOnlyList<TodoDetailModel>> Handle(GetTasks query, CancellationToken cancellationToken)
         {
-            return _context.Set<Task>()
+            return await _context.Set<Todo>()
                 .AsNoTracking()
-                .Select(x => new TaskDetailModel
+                .Select(x => new TodoDetailModel
                 {
                     Id = x.Id,
                     Title = x.Title,
                     Priority = (int)x.Priority
-                })
-                .ToList();
+                })            
+                .ToListAsync();
         }
 
-        public TaskDetailModel Handle(GetTaskDetail query)
-        {
-            return _context.Set<Task>()
+        public async Task<TodoDetailModel> Handle(GetTodoDetail query, CancellationToken cancellationToken)
+{
+            return await _context.Set<Todo>()
               .AsNoTracking()
-              .Select(x => new TaskDetailModel
+              .Select(x => new TodoDetailModel
               {
                   Id = x.Id,
                   Title = x.Title,
                   Priority = (int)x.Priority
               })
-              .SingleOrDefault(x => x.Id == query.TaskId);
+              .SingleOrDefaultAsync(x => x.Id == query.TodoId);
         }
     }
 }

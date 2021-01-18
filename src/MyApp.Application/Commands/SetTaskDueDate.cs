@@ -1,11 +1,11 @@
-﻿using SlickBus;
+﻿using MediatR;
 using System;
 
 namespace MyApp.Application.Commands
 {
-    public class SetTaskDueDate : Request<Unit>
+    public class SetTaskDueDate : IRequest<Unit>
     {
-        public Guid TaskId { get; set; }
+        public Guid TodoId { get; set; }
         public DateTime DueDate { get; set; }
     }
 }

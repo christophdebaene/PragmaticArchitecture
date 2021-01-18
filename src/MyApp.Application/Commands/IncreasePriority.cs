@@ -1,10 +1,10 @@
-﻿using SlickBus;
+﻿using MediatR;
 using System;
 
 namespace MyApp.Application.Commands
 {
-    public class IncreasePriority : Request<Unit>
+    public class IncreasePriority : IRequest<Unit>
     {
-        public Guid TaskId { get; set; }
+        public Guid TodoId { get; set; }
     }
 }
