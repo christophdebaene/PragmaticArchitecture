@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MyApp.Domain.Model;
+using MyApp.Domain.Todos;
 
 namespace MyApp.Domain.Model
 {

@@ -13,7 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MyApp.Application\MyApp.Application.csproj" />
-    <ProjectReference Include="..\MyApp.ReadModel.Handlers\MyApp.ReadModel.Handlers.csproj" />
+    <ProjectReference Include="..\MyApp.ReadModel\MyApp.ReadModel.csproj" />
   </ItemGroup>
 
 </Project>

@@ -11,8 +11,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyApp.Application.Bootstrap
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyApp.ReadModel", "MyApp.ReadModel\MyApp.ReadModel.csproj", "{42A32898-DFA0-43A3-ADCC-4D3B3B3970A3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyApp.ReadModel.Handlers", "MyApp.ReadModel.Handlers\MyApp.ReadModel.Handlers.csproj", "{73E065B4-60B7-4342-8F2E-B6DEFCDDA94A}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyApp.Site", "MyApp.Site\MyApp.Site.csproj", "{CCB8424A-6E9E-490A-A63D-C10274CE09B9}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{AB9C9DE6-C390-429B-8CDE-463B10A681CF}"
@@ -42,10 +40,6 @@ Global
 		{42A32898-DFA0-43A3-ADCC-4D3B3B3970A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{42A32898-DFA0-43A3-ADCC-4D3B3B3970A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{42A32898-DFA0-43A3-ADCC-4D3B3B3970A3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{73E065B4-60B7-4342-8F2E-B6DEFCDDA94A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{73E065B4-60B7-4342-8F2E-B6DEFCDDA94A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{73E065B4-60B7-4342-8F2E-B6DEFCDDA94A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{73E065B4-60B7-4342-8F2E-B6DEFCDDA94A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{CCB8424A-6E9E-490A-A63D-C10274CE09B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CCB8424A-6E9E-490A-A63D-C10274CE09B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CCB8424A-6E9E-490A-A63D-C10274CE09B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
