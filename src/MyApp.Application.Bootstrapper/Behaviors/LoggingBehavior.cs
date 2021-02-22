@@ -1,20 +1,20 @@
-﻿using MediatR;
-using Serilog;
-using Serilog.Context;
-using Serilog.Core;
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
+using MediatR;
+using Serilog;
+using Serilog.Context;
+using Serilog.Core;
 
 namespace MyApp.Application.Bootstrapper
 {
     public class LoggingBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     {
-        static string _sourceContextType = typeof(LoggingBehavior<,>).FullName.Split('`')[0];
+        static readonly string s_sourceContextType = typeof(LoggingBehavior<,>).FullName.Split('`')[0];
         public async Task<TResponse> Handle(TRequest request, CancellationToken cancelllationToken, RequestHandlerDelegate<TResponse> next)
         {
-            var log = Log.ForContext(Constants.SourceContextPropertyName, _sourceContextType);
+            var log = Log.ForContext(Constants.SourceContextPropertyName, s_sourceContextType);
 
             using (LogContext.PushProperty("RequestName", request.GetType().Name))
             {

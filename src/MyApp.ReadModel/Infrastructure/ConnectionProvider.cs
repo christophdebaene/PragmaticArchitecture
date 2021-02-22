@@ -11,7 +11,7 @@ namespace MyApp.ReadModel.Infrastructure
             _configuration = configuration ?? throw new System.ArgumentNullException(nameof(configuration));
         }
         public System.Data.IDbConnection GetOpenConnection()
-        {            
+        {
             var connectionString = _configuration.GetConnectionString("MyApp");
             var sqlConnection = new SqlConnection(connectionString);
             sqlConnection.Open();

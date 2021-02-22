@@ -1,0 +1,28 @@
+﻿@page
+@model Users.IndexModel
+@{
+}
+
+<h1>Logins</h1>
+<form method="post">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>                
+                <th>Roles</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Data)
+            {
+                <tr>
+                    <td>@item.Name</td>
+                    <td>@string.Join(",", item.Roles)</td>
+                    <td><button type="submit" asp-page-handler="Select" asp-route-name="@item.Name">Select</button></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</form>
+

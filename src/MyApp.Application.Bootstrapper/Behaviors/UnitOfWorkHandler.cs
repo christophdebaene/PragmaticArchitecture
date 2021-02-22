@@ -1,8 +1,8 @@
-﻿using MediatR;
-using MyApp.Domain.Model;
-using System;
+﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using MediatR;
+using MyApp.Domain;
 
 namespace MyApp.Application.Bootstrapper
 {

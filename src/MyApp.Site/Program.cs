@@ -1,10 +1,12 @@
+﻿using System;
+using System.IO;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
+using MyApp.Domain;
+using MyApp.Site.Infrastructure;
 using Serilog;
-using System;
-using System.IO;
 
 namespace MyApp.Site
 {
@@ -21,7 +23,7 @@ namespace MyApp.Site
 
             Log.Logger = new LoggerConfiguration()
                 .ReadFrom.Configuration(configuration)
-                .Enrich.FromLogContext()                
+                .Enrich.FromLogContext()
                 .CreateLogger();
 
             try
@@ -30,7 +32,12 @@ namespace MyApp.Site
                     .UseConfiguration(configuration)
                     .UseSerilog()
                     .UseStartup<Startup>()
-                    .Build()                    
+                    .Build()
+                    .CreateDatabase<MyAppContext>((context, services) =>
+                    {
+                        context.Database.EnsureDeleted();
+                        context.Database.EnsureCreated();
+                    })
                     .Run();
             }
             catch (Exception exc)

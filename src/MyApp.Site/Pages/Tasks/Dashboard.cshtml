@@ -1,0 +1,41 @@
+﻿@page
+@model MyApp.Site.Pages.Tasks.DashboardModel
+@{
+}
+
+<h1>Dashboard</h1>
+<h4><b>@Model.Data.CompletedCount</b> Completed Task(s)</h4>
+
+<h3>Overview Uncompleted Tasks</h3>
+
+<div class="progress">
+    <div class="progress-bar bg-success" style="width:@(Model.Data.UncompletedLowPercentage)%">@(Model.Data.UncompletedLowPercentage)% Low</div>
+    <div class="progress-bar bg-warning" style="width:@(Model.Data.UncompletedMediumPercentage)%">@(Model.Data.UncompletedMediumPercentage)% Medium</div>
+    <div class="progress-bar bg-danger"  style="width:@(Model.Data.UncompletedHighPercentage)%">@(Model.Data.UncompletedHighPercentage)% High</div>
+</div>
+
+<h3>Top 5 Uncompleted Tasks</h3>
+
+<table class="table table-condensed">
+    <thead>
+        <tr>
+            <th>Priority</th>
+            <th>Title</th>
+            <th>DueDate</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>            
+        @foreach (var taskModel in Model.Data?.Top5HighPriorityTasks)
+        {
+        <tr>
+            <td>@taskModel.Priority</td>
+            <td>@taskModel.Title</td>
+            <td>@taskModel.DueDate</td>
+            <td><a asp-page="./Detail" asp-route-id="@taskModel.Id">Detail</a></td>
+        </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-page="Add">Add New</a>
