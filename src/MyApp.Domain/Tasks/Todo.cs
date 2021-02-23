@@ -1,6 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
-using MyApp.Domain.Shared;
+using Bricks.Domain;
 
 namespace MyApp.Domain.Tasks
 {

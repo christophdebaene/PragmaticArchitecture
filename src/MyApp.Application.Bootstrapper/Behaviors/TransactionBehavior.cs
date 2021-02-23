@@ -1,6 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using System.Transactions;
+using Bricks;
 using MediatR;
 
 namespace MyApp.Application.Bootstrapper
@@ -14,11 +15,18 @@ namespace MyApp.Application.Bootstrapper
         };
         public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
         {
-            using (var scope = new TransactionScope(TransactionScopeOption.Required, s_transactionOptions, TransactionScopeAsyncFlowOption.Enabled))
+            if (request.GetType().IsCommand())
             {
-                var response = await next();
-                scope.Complete();
-                return response;
+                using (var scope = new TransactionScope(TransactionScopeOption.Required, s_transactionOptions, TransactionScopeAsyncFlowOption.Enabled))
+                {
+                    var response = await next();
+                    scope.Complete();
+                    return response;
+                }
+            }
+            else
+            {
+                return await next();
             }
         }
     }

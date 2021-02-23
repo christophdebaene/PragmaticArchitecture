@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Bricks;
 using MediatR;
 using MyApp.Domain;
 using MyApp.Domain.Tasks;
 
 namespace MyApp.Application.Tasks
 {
+    [Command]
     public record CompleteTodo : IRequest<Unit>
     {
         public Guid TodoId { get; init; }

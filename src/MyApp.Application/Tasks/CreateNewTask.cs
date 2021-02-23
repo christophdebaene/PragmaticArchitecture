@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Bricks;
 using FluentValidation;
 using MediatR;
 using MyApp.Domain;
@@ -8,6 +9,7 @@ using MyApp.Domain.Tasks;
 
 namespace MyApp.Application.Tasks
 {
+    [Command]
     public record CreateNewTask : IRequest<Unit>
     {
         public Guid TodoId { get; init; }

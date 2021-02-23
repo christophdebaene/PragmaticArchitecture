@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Bricks.Domain;
 using Microsoft.EntityFrameworkCore;
-using MyApp.Domain.Shared;
 using MyApp.Domain.Tasks;
 using MyApp.Domain.Users;
 

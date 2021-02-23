@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Bricks;
 using Dapper;
 using MediatR;
 using MyApp.Domain.Tasks;
@@ -10,6 +11,7 @@ using MyApp.ReadModel.Infrastructure;
 
 namespace MyApp.ReadModel.Tasks
 {
+    [Query]
     public record GetTaskSummary : IRequest<TaskSummaryModel>
     {
     }

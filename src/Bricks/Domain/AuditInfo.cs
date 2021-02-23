@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.EntityFrameworkCore;
 
-namespace MyApp.Domain.Shared
+namespace Bricks.Domain
 {
     [Owned]
     public class AuditInfo : ValueObject

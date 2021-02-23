@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MyApp.Domain
+namespace Bricks.Domain
 {
     public static class SystemClock
     {

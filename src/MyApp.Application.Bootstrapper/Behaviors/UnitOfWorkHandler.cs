@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Bricks;
 using MediatR;
 using MyApp.Domain;
 
@@ -15,9 +16,16 @@ namespace MyApp.Application.Bootstrapper
         }
         public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
         {
-            var response = await next();
-            await _context.SaveChangesAsync(cancellationToken);
-            return response;
+            if (request.GetType().IsCommand())
+            {
+                var response = await next();
+                await _context.SaveChangesAsync(cancellationToken);
+                return response;
+            }
+            else
+            {
+                return await next();
+            }
         }
     }
 }

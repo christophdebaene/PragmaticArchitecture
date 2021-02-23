@@ -1,4 +1,4 @@
-﻿namespace MyApp.Domain.Shared
+﻿namespace Bricks.Domain
 {
     public interface IAuditable
     {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Bricks;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using MyApp.Domain;
@@ -11,6 +12,7 @@ using MyApp.Domain.Users;
 
 namespace MyApp.ReadModel.Tasks
 {
+    [Query]
     public record GetTasks : IRequest<IReadOnlyList<TodoDetailModel>>
     {
     }
