@@ -6,6 +6,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.FeatureManagement;
 using MyApp.Domain;
 using MyApp.Domain.Users;
 using MyApp.ReadModel.Infrastructure;
@@ -17,6 +18,7 @@ namespace MyApp.Application.Bootstrapper
         static readonly List<Assembly> s_assemblies = new List<Assembly>
         {
             Assembly.Load("MyApp.Application"),
+            Assembly.Load("MyApp.Domain"),
             Assembly.Load("MyApp.ReadModel")
         };
         public static IServiceCollection AddMyApp(this IServiceCollection services, IConfiguration configuration)
@@ -24,8 +26,14 @@ namespace MyApp.Application.Bootstrapper
             return services
                 .ConfigureMediatR(s_assemblies)
                 .ConfigureFluentValidaton(s_assemblies)
+                .ConfigureFeatures()
                 .ConfigureDatabase(configuration)
                 .ConfigureDomain();
+        }
+        static IServiceCollection ConfigureFeatures(this IServiceCollection services)
+        {
+            services.AddFeatureManagement();
+            return services;
         }
         static IServiceCollection ConfigureDomain(this IServiceCollection services)
         {
@@ -35,7 +43,7 @@ namespace MyApp.Application.Bootstrapper
         static IServiceCollection ConfigureDatabase(this IServiceCollection services, IConfiguration configuration)
         {
             return services
-                .AddSingleton<IConnectionProvider, ConnectionProvider>()
+                .AddSingleton<IDbConnectionFactory, ProfiledDbConnectionFactory>()
                 .AddDbContext<MyAppContext>(options =>
                     options.UseSqlServer(configuration.GetConnectionString("MyApp")));
         }
@@ -43,10 +51,11 @@ namespace MyApp.Application.Bootstrapper
         {
             return services
                 .AddMediatR(assemblies.ToArray())
-                .AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>))
-                .AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>))
-                .AddTransient(typeof(IPipelineBehavior<,>), typeof(TransactionBehavior<,>))
-                .AddTransient(typeof(IPipelineBehavior<,>), typeof(UnitOfWorkBehavior<,>));
+                .AddScoped(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>))
+                .AddScoped(typeof(IPipelineBehavior<,>), typeof(MiniProfilerBehavior<,>))
+                .AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>))
+                .AddScoped(typeof(IPipelineBehavior<,>), typeof(TransactionBehavior<,>))
+                .AddScoped(typeof(IPipelineBehavior<,>), typeof(UnitOfWorkBehavior<,>));
         }
         static IServiceCollection ConfigureFluentValidaton(this IServiceCollection services, IEnumerable<Assembly> assemblies)
         {

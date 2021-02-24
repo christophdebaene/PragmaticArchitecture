@@ -21,6 +21,10 @@ namespace MyApp.Site
         }
         public void ConfigureServices(IServiceCollection services)
         {
+            services
+                .AddMiniProfiler()
+                .AddEntityFramework();
+
             services.AddRazorPages();
             services.AddHttpContextAccessor();
             services.AddMyApp(Configuration);
@@ -42,6 +46,7 @@ namespace MyApp.Site
                 app.UseExceptionHandler("/Error");
             }
 
+            app.UseMiniProfiler();
             app.UseStaticFiles();
             app.UseSerilogRequestLogging();
             app.UseRouting();
