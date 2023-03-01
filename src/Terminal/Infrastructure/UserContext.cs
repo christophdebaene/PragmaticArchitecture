@@ -1,9 +1,7 @@
 ﻿using MyApp.Domain.Users;
 
-namespace Terminal.Infrastructure
+namespace Terminal.Infrastructure;
+public class UserContext : IUserContext
 {
-    public class UserContext : IUserContext
-    {
-        public User CurrentUser { get; set; }
-    }
+    public User CurrentUser { get; set; }
 }

@@ -2,22 +2,20 @@
 using Microsoft.EntityFrameworkCore;
 using MyApp.Domain;
 
-namespace MyApp.Application.Infrastructure
+namespace MyApp.Application.Infrastructure;
+public interface IDbConnectionFactory
 {
-    public interface IDbConnectionFactory
+    DbConnection GetConnection();
+}
+public class DbConnectionFactory : IDbConnectionFactory
+{
+    private readonly MyAppContext _context;
+    public DbConnectionFactory(MyAppContext context)
     {
-        DbConnection GetConnection();
+        _context = context ?? throw new System.ArgumentNullException(nameof(context));
     }
-    public class DbConnectionFactory : IDbConnectionFactory
+    public DbConnection GetConnection()
     {
-        private readonly MyAppContext _context;
-        public DbConnectionFactory(MyAppContext context)
-        {
-            _context = context ?? throw new System.ArgumentNullException(nameof(context));
-        }
-        public DbConnection GetConnection()
-        {
-            return _context.Database.GetDbConnection();
-        }
+        return _context.Database.GetDbConnection();
     }
 }

@@ -1,7 +1,5 @@
-﻿namespace MyApp.Domain.Users
+﻿namespace MyApp.Domain.Users;
+public interface IUserContext
 {
-    public interface IUserContext
-    {
-        User CurrentUser { get; }
-    }
+    User CurrentUser { get; }
 }

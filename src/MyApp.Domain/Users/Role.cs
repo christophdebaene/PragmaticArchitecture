@@ -1,10 +1,9 @@
-﻿namespace MyApp.Domain.Users
+﻿namespace MyApp.Domain.Users;
+
+[Flags]
+public enum Role
 {
-    [Flags]
-    public enum Role
-    {
-        None = 0,
-        Administrator = 1,
-        Contributor = 2
-    }
+    None = 0,
+    Administrator = 1,
+    Contributor = 2
 }

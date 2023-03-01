@@ -1,9 +1,7 @@
-﻿namespace Bricks
+﻿namespace Bricks;
+public enum RequestType
 {
-    public enum RequestType
-    {
-        Unknown = 0,
-        Query = 1,
-        Command = 2
-    }
+    Unknown = 0,
+    Query = 1,
+    Command = 2
 }

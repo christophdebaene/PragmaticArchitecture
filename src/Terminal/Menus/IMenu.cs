@@ -1,6 +1,4 @@
-﻿namespace Terminal.Menus
+﻿namespace Terminal.Menus;
+public interface Menu
 {
-    public interface Menu
-    {
-    }
 }

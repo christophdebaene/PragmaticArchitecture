@@ -3,27 +3,26 @@ using MediatR;
 using MyApp.Domain;
 using MyApp.Domain.Tasks;
 
-namespace MyApp.Application.Tasks
+namespace MyApp.Application.Tasks;
+
+[Command]
+public record DecreasePriority : IRequest
 {
-    [Command]
-    public record DecreasePriority : IRequest
+    public Guid TodoId { get; init; }
+}
+
+public class DecreasePriorityHandler : IRequestHandler<DecreasePriority>
+{
+    private readonly MyAppContext _context;
+    public DecreasePriorityHandler(MyAppContext context)
     {
-        public Guid TodoId { get; init; }
+        _context = context ?? throw new ArgumentNullException(nameof(context));
     }
-
-    public class DecreasePriorityHandler : IRequestHandler<DecreasePriority>
+    public async Task Handle(DecreasePriority command, CancellationToken cancellationToken)
     {
-        private readonly MyAppContext _context;
-        public DecreasePriorityHandler(MyAppContext context)
-        {
-            _context = context ?? throw new ArgumentNullException(nameof(context));
-        }
-        public async Task Handle(DecreasePriority command, CancellationToken cancellationToken)
-        {
-            var todo = await _context.Set<Todo>().FindAsync(command.TodoId);
-            todo.DecreasePriority();
+        var todo = await _context.Set<Todo>().FindAsync(command.TodoId);
+        todo.DecreasePriority();
 
-            return;
-        }
+        return;
     }
 }

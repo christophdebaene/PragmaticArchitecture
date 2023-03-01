@@ -1,8 +1,6 @@
-﻿namespace MyApp.Domain.Users
+﻿namespace MyApp.Domain.Users;
+public interface IUserRepository
 {
-    public interface IUserRepository
-    {
-        Task<IReadOnlyList<User>> GetUsers();
-        Task<User> GetUserById(string id);
-    }
+    Task<IReadOnlyList<User>> GetUsers();
+    Task<User> GetUserById(string id);
 }

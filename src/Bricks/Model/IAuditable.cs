@@ -1,7 +1,5 @@
-﻿namespace Bricks.Model
+﻿namespace Bricks.Model;
+public interface IAuditable
 {
-    public interface IAuditable
-    {
-        AuditInfo Audit { get; }
-    }
+    AuditInfo Audit { get; }
 }
