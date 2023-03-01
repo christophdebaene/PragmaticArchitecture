@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace MyApp.Domain.Users
+﻿namespace MyApp.Domain.Users
 {
     [Flags]
     public enum Role

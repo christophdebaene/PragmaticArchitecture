@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Bricks
+﻿namespace Bricks
 {
     public static class RequestTypeExtensions
     {

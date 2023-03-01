@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace MyApp.Site.Infrastructure
 {

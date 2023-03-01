@@ -1,7 +1,4 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using Bricks;
+﻿using Bricks;
 using MediatR;
 using MyApp.Domain;
 using MyApp.Domain.Tasks;
@@ -9,23 +6,23 @@ using MyApp.Domain.Tasks;
 namespace MyApp.Application.Tasks
 {
     [Command]
-    public record IncreasePriority : IRequest<Unit>
+    public record IncreasePriority : IRequest
     {
         public Guid TodoId { get; init; }
     }
-    public class IncreasePriorityHandler : IRequestHandler<IncreasePriority, Unit>
+    public class IncreasePriorityHandler : IRequestHandler<IncreasePriority>
     {
         private readonly MyAppContext _context;
         public IncreasePriorityHandler(MyAppContext context)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
-        public async Task<Unit> Handle(IncreasePriority command, CancellationToken cancellationToken)
+        public async Task Handle(IncreasePriority command, CancellationToken cancellationToken)
         {
             var task = await _context.Set<Todo>().FindAsync(command.TodoId);
             task.IncreasePriority();
 
-            return Unit.Value;
+            return;
         }
     }
 }

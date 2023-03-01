@@ -1,6 +1,4 @@
-﻿using System;
-using Microsoft.AspNetCore.Http;
-using MyApp.Domain.Users;
+﻿using MyApp.Domain.Users;
 
 namespace MyApp.Site.Infrastructure
 {

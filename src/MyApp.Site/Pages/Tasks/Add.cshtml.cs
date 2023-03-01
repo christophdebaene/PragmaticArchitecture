@@ -1,6 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MyApp.Application.Tasks;
@@ -19,7 +17,7 @@ namespace MyApp.Site.Pages.Tasks
         }
         public async Task<IActionResult> OnPostAsync()
         {
-            var command = new CreateNewTask
+            var command = new CreateNewTodo
             {
                 TodoId = Guid.NewGuid(),
                 Title = Title
