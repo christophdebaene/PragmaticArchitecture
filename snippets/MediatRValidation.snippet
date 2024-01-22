@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">	
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>MediatR</Title>
+			<Author>ChristophDeBaene.be</Author>
+			<Shortcut>MediatRValidation</Shortcut>
+		</Header>
+		<Snippet>
+			<Declarations>
+				<Literal Editable="true">
+					<ID>Request</ID>
+					<Default>Ping</Default>
+				</Literal>
+			</Declarations>
+			 <References>
+               <Reference>
+                   <Assembly>FluentValidation.dll</Assembly>
+               </Reference>
+            </References>
+			<Imports>
+				<Import>
+					<Namespace>MediatR</Namespace>					
+				</Import>
+				<Import>
+					<Namespace>FluentValidation</Namespace>
+				</Import>				
+			</Imports>
+			<Code Language="CSharp">
+				<![CDATA[
+					public record $Request$ : IRequest
+					{					
+					}
+					
+					public class $Request$Validator : AbstractValidator<$Request$> 
+					{
+						public $Request$Validator() 
+						{
+						}
+					}
+										
+					public class $Request$Handler : IRequestHandler<$Request$>
+					{
+						public async Task Handle($Request$ request, CancellationToken cancellationToken) 
+						{
+							throw new NotImplementedException();
+						}
+					}
+				]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>		
+</CodeSnippets>

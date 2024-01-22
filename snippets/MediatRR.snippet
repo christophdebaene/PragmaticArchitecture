@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">	
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>MediatR</Title>
+			<Author>ChristophDeBaene.be</Author>
+			<Shortcut>MediatRR</Shortcut>
+		</Header>
+		<Snippet>			
+			<Declarations>
+				<Literal Editable="true">
+					<ID>Request</ID>					
+					<Default>Ping</Default>
+				</Literal>
+				<Literal Editable="true">
+					<ID>Response</ID>					
+					<Default>Pong</Default>
+				</Literal>
+			</Declarations>
+			<Imports>
+				<Import>
+					<Namespace>MediatR</Namespace>
+				</Import>
+			</Imports>
+			<Code Language="CSharp">
+				<![CDATA[
+					public record $Request$ : IRequest<$Response$> 
+					{
+					}
+																																			
+					public class $Request$Handler : IRequestHandler<$Request$, $Response$>
+					{
+						public async Task<$Response$> Handle($Request$ request, CancellationToken cancellationToken) 
+						{
+							throw new NotImplementedException();
+						}
+					}
+				]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>		
+</CodeSnippets>
