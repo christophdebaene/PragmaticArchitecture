@@ -10,18 +10,11 @@ public record DeleteTodo : IRequest
 {
     public Guid TodoId { get; init; }
 }
-public class DeleteTaskHandler : IRequestHandler<DeleteTodo>
-{
-    private readonly MyAppContext _context;
-    public DeleteTaskHandler(MyAppContext context)
-    {
-        _context = context ?? throw new ArgumentNullException(nameof(context));
-    }
+public class DeleteTaskHandler(MyAppContext context) : IRequestHandler<DeleteTodo>
+{    
     public async Task Handle(DeleteTodo command, CancellationToken cancellationToken)
     {
-        var todo = await _context.Set<Todo>().FindAsync(command.TodoId);
-        _context.Set<Todo>().Remove(todo);
-
-        return;
+        var todo = await context.Set<Todo>().FindAsync(command.TodoId);
+        context.Set<Todo>().Remove(todo);        
     }
 }

@@ -18,19 +18,12 @@ public class TodoDetailModel
     public string Title { get; set; }
     public string Priority { get; set; }
 }
-public class GetTodoDetailHandler : IRequestHandler<GetTodoDetail, TodoDetailModel>
+public class GetTodoDetailHandler(MyAppContext context, IUserContext userContext) : IRequestHandler<GetTodoDetail, TodoDetailModel>
 {
-    private readonly MyAppContext _context;
-    private readonly IUserContext _userContext;
-    public GetTodoDetailHandler(MyAppContext context, IUserContext userContext)
-    {
-        _context = context ?? throw new ArgumentNullException(nameof(context));
-        _userContext = userContext ?? throw new ArgumentNullException(nameof(userContext));
-    }
     public async Task<TodoDetailModel> Handle(GetTodoDetail query, CancellationToken cancellationToken)
     {
-        return await _context.Set<Todo>()
-          .Where(x => x.Audit.CreatedBy == _userContext.CurrentUser.Id)
+        return await context.Set<Todo>()
+          .Where(x => x.Audit.CreatedBy == userContext.CurrentUser.Id)
           .AsNoTracking()
           .Select(x => new TodoDetailModel
           {

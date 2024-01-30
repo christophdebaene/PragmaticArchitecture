@@ -10,18 +10,11 @@ public record CompleteTodo : IRequest
 {
     public Guid TodoId { get; init; }
 }
-public class CompleteTodoHandler : IRequestHandler<CompleteTodo>
-{
-    private readonly MyAppContext _context;
-    public CompleteTodoHandler(MyAppContext context)
-    {
-        _context = context ?? throw new ArgumentNullException(nameof(context));
-    }
+public class CompleteTodoHandler(MyAppContext context) : IRequestHandler<CompleteTodo>
+{    
     public async Task Handle(CompleteTodo command, CancellationToken cancellationToken)
     {
-        var todo = await _context.Set<Todo>().FindAsync(command.TodoId, cancellationToken);
-        todo.Complete();
-
-        return;
+        var todo = await context.Set<Todo>().FindAsync(command.TodoId, cancellationToken);
+        todo.Complete();        
     }
 }

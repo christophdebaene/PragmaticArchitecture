@@ -11,21 +11,14 @@ namespace MyApp.Application.Tasks;
 public record GetTasks : IRequest<IReadOnlyList<TodoDetailModel>>
 {
 }
-public class GetTasksHandler : IRequestHandler<GetTasks, IReadOnlyList<TodoDetailModel>>
+public class GetTasksHandler(MyAppContext context, IUserContext userContext) : IRequestHandler<GetTasks, IReadOnlyList<TodoDetailModel>>
 {
-    private readonly MyAppContext _context;
-    private readonly IUserContext _userContext;
-    public GetTasksHandler(MyAppContext context, IUserContext userContext)
-    {
-        _context = context ?? throw new ArgumentNullException(nameof(context));
-        _userContext = userContext ?? throw new ArgumentNullException(nameof(userContext));
-    }
     public async Task<IReadOnlyList<TodoDetailModel>> Handle(GetTasks query, CancellationToken cancellationToken)
     {
-        return await _context.Set<Todo>()
+        return await context.Set<Todo>()
            .AsNoTracking()
            .OrderByDescending(x => x.Audit.Created)
-           .Where(x => x.Audit.CreatedBy == _userContext.CurrentUser.Id)
+           .Where(x => x.Audit.CreatedBy == userContext.CurrentUser.Id)
            .Select(x => new TodoDetailModel
            {
                Id = x.Id,

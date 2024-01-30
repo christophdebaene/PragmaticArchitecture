@@ -20,18 +20,11 @@ public class CreateNewTaskValidator : AbstractValidator<CreateNewTodo>
         RuleFor(x => x.Title).Length(1, 255);
     }
 }
-public class CreateNewTaskHandler : IRequestHandler<CreateNewTodo>
-{
-    private readonly MyAppContext _context;
-    public CreateNewTaskHandler(MyAppContext context)
-    {
-        _context = context ?? throw new ArgumentNullException(nameof(context));
-    }
+public class CreateNewTaskHandler(MyAppContext context) : IRequestHandler<CreateNewTodo>
+{    
     public async Task Handle(CreateNewTodo command, CancellationToken cancellationToken)
     {
         var task = new Todo(command.TodoId, command.Title);
-        await _context.AddAsync(task, cancellationToken);
-
-        return;
+        await context.AddAsync(task, cancellationToken);        
     }
 }

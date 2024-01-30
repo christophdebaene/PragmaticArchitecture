@@ -7,15 +7,10 @@ public interface IDbConnectionFactory
 {
     DbConnection GetConnection();
 }
-public class DbConnectionFactory : IDbConnectionFactory
-{
-    private readonly MyAppContext _context;
-    public DbConnectionFactory(MyAppContext context)
-    {
-        _context = context ?? throw new System.ArgumentNullException(nameof(context));
-    }
+public class DbConnectionFactory(MyAppContext context) : IDbConnectionFactory
+{    
     public DbConnection GetConnection()
     {
-        return _context.Database.GetDbConnection();
+        return context.Database.GetDbConnection();
     }
 }

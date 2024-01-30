@@ -18,16 +18,11 @@ public record UserView
 
     public Role Roles { get; init; }
 }
-public class GetUsersHandler : IRequestHandler<GetUsers, List<UserView>>
-{
-    private readonly MyAppContext _context;
-    public GetUsersHandler(MyAppContext context)
-    {
-        _context = context ?? throw new ArgumentNullException(nameof(context));
-    }
+public class GetUsersHandler(MyAppContext context) : IRequestHandler<GetUsers, List<UserView>>
+{    
     public async Task<List<UserView>> Handle(GetUsers request, CancellationToken cancellationToken)
     {
-        var result = _context.Users.Select(x => new UserView
+        var result = context.Users.Select(x => new UserView
         {
             Id = x.Id,
             FirstName = x.FirstName,

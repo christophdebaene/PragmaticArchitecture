@@ -28,15 +28,8 @@ public class TaskModel
     public DateTime DueDate { get; set; }
 }
 
-public class GetTaskSummaryHandler : IRequestHandler<GetTaskSummary, TaskSummaryModel>
-{
-    private readonly IDbConnectionFactory _dbConnectionFactory;
-    private readonly IUserContext _userContext;
-    public GetTaskSummaryHandler(IDbConnectionFactory dbConnectionFactory, IUserContext userContext)
-    {
-        _dbConnectionFactory = dbConnectionFactory ?? throw new ArgumentNullException(nameof(dbConnectionFactory));
-        _userContext = userContext ?? throw new ArgumentNullException(nameof(userContext));
-    }
+public class GetTaskSummaryHandler(IDbConnectionFactory dbConnectionFactory, IUserContext userContext) : IRequestHandler<GetTaskSummary, TaskSummaryModel>
+{    
     public async Task<TaskSummaryModel> Handle(GetTaskSummary request, CancellationToken cancellationToken)
     {
         var model = new TaskSummaryModel();
@@ -45,9 +38,9 @@ public class GetTaskSummaryHandler : IRequestHandler<GetTaskSummary, TaskSummary
                 SELECT Priority as Priority, COUNT(Priority) as Count FROM Todo WHERE IsCompleted = 0 AND Audit_CreatedBy = @UserId GROUP BY Priority
                 SELECT TOP(5) Id, Title, Priority, DueDate FROM Todo WHERE IsCompleted = 0 AND Audit_CreatedBy = @UserId ORDER By DueDate";
 
-        var connection = _dbConnectionFactory.GetConnection();
+        var connection = dbConnectionFactory.GetConnection();
 
-        using (var multi = await connection.QueryMultipleAsync(sql, new { UserId = _userContext.CurrentUser.Id }))
+        using (var multi = await connection.QueryMultipleAsync(sql, new { UserId = userContext.CurrentUser.Id }))
         {
             model.CompletedCount = await multi.ReadSingleAsync<int>();
 
