@@ -3,11 +3,11 @@ using MediatR;
 using Spectre.Console;
 using Terminal.CommandBus;
 
-namespace Terminal.Users;
+namespace Terminal.Features.Users;
 
 [DisplayName("Select User")]
 public class SelectUser(ISender sender) : Command<NoCommandArguments>
-{    
+{
     public override async Task ExecuteAsync(NoCommandArguments arguments)
     {
         AnsiConsole.Write(new FigletText("Select User"));

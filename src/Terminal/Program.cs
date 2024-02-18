@@ -1,17 +1,16 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Terminal;
-using TodoApp.Infrastructure.Data;
 
 var host = Host.CreateDefaultBuilder(args)
     .ConfigureServices((hostContext, services) =>
     {
-        services.AddMyAppTerminal();
+        services.AddTerminal();
     })
     .Build();
 
-var dbContext = host.Services.GetRequiredService<ApplicationDbContext>();
-dbContext.Database.EnsureCreated();
+//var dbContext = host.Services.GetRequiredService<ApplicationDbContext>();
+//dbContext.Database.EnsureCreated();
 
 while (true)
 {

@@ -3,17 +3,17 @@ using MediatR;
 using Spectre.Console;
 using Terminal.CommandBus;
 
-namespace Terminal.Users;
+namespace Terminal.Features.Users;
 
 [DisplayName("Add User")]
-public class AddUser(ISender sender) : Command<CommandArguments>
-{ 
-    public override async Task ExecuteAsync(CommandArguments arguments)
+public class AddUser(ISender sender) : Command<NoCommandArguments>
+{
+    public override async Task ExecuteAsync(NoCommandArguments arguments)
     {
         AnsiConsole.Write(new FigletText("Add User"));
 
-        var firstName = AnsiConsole.Ask<string>("Firstname:");
-        var lastName = AnsiConsole.Ask<string>("Lastname:");
+        var firstName = AnsiConsole.Ask<string>("First name:");
+        var lastName = AnsiConsole.Ask<string>("Last name:");
         /*
         var role = AnsiConsole.Prompt(
              new SelectionPrompt<string>()

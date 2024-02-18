@@ -37,6 +37,9 @@ public static class ServiceCollectionsExtensions
             x.UseQueryTrackingBehavior(QueryTrackingBehavior.TrackAll);
         });
 
+        services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
+
+
         //services.AddTransient<IDbConnectionFactory, ProfiledDbConnectionFactory>();
         services.AddTransient<IDbConnectionFactory, DbConnectionFactory>();
         //services.AddScoped<IUserRepository, UserRepository>();
@@ -55,7 +58,6 @@ public static class ServiceCollectionsExtensions
                     .AddOpenBehavior(typeof(TransactionBehavior<,>))
                     .AddOpenBehavior(typeof(UnitOfWorkBehavior<,>));
             });
-
     }
     static IServiceCollection ConfigureFluentValidation(this IServiceCollection services, IEnumerable<Assembly> assemblies)
     {

@@ -1,23 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace TodoApp.Domain.Users;
-
-[Table(nameof(User))]
+﻿namespace TodoApp.Domain.Users;
 public class User
 {
-    public string Id { get; set; }
-
-    [MaxLength(255)]
+    public string Id { get; set; }    
     public string FirstName { get; set; }
-
-    [MaxLength(255)]
-    public string LastName { get; set; }
-
-    [MaxLength(255)]
-    public string SubscriptionLevel { get; set; }
-
-    [MaxLength(2)]
+    public string LastName { get; set; }    
+    public string SubscriptionLevel { get; set; }    
     public string Country { get; set; }
     public Role Roles { get; set; }
 

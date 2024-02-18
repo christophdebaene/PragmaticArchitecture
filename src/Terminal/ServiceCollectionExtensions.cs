@@ -8,7 +8,7 @@ using TodoApp.Infrastructure;
 namespace Terminal;
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection AddMyAppTerminal(this IServiceCollection services)
+    public static IServiceCollection AddTerminal(this IServiceCollection services)
     {
         var configuration = new ConfigurationBuilder()
             .SetBasePath(Directory.GetCurrentDirectory())

@@ -3,17 +3,12 @@ using Spectre.Console;
 using Terminal.CommandBus;
 
 namespace Terminal;
-public class CompositeCommandArguments : CommandArguments
+public class CompositeCommandArguments : ICommandArguments
 {
     public List<Type> Commands { get; set; }
 }
-public class CompositeCommand : Command<CompositeCommandArguments>
-{
-    private readonly IServiceProvider _serviceProvider;
-    public CompositeCommand(IServiceProvider serviceProvider)
-    {
-        _serviceProvider = serviceProvider;
-    }
+public class CompositeCommand(IServiceProvider serviceProvider) : Command<CompositeCommandArguments>
+{    
     public override async Task ExecuteAsync(CompositeCommandArguments arguments)
     {
         var commandType = AnsiConsole.Prompt(
@@ -23,16 +18,10 @@ public class CompositeCommand : Command<CompositeCommandArguments>
                 .UseConverter(x => ICommand.Name(x))
                 .AddChoices(arguments.Commands));
 
-
-        using (var scope = _serviceProvider.CreateScope())
+        using (var scope = serviceProvider.CreateScope())
         {
-            var command = scope.ServiceProvider.GetService(commandType) as ICommand;
+            var command = scope.ServiceProvider.GetRequiredService(commandType) as ICommand;
             await command!.ExecuteAsync(NoCommandArguments.Value);
-        }
-
-        /*
-        var command = _serviceProvider.GetService(commandType) as ICommand;
-        await command!.ExecuteAsync(NoCommandArguments.Value);
-        */
+        }        
     }
 }

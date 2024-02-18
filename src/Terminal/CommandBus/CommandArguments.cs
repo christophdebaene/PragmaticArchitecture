@@ -1,8 +1,8 @@
 ﻿namespace Terminal.CommandBus;
-public abstract class CommandArguments
+public interface ICommandArguments
 {
 }
-public class NoCommandArguments : CommandArguments
+public record NoCommandArguments : ICommandArguments
 {
-    public static CommandArguments Value = new NoCommandArguments();
+    public static NoCommandArguments Value = new();
 }

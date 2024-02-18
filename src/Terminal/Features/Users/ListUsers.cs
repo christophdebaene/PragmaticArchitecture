@@ -3,7 +3,7 @@ using MediatR;
 using Spectre.Console;
 using Terminal.CommandBus;
 
-namespace Terminal.Users;
+namespace Terminal.Features.Users;
 
 [DisplayName("List Users")]
 public class ListUsers(ISender sender) : Command<NoCommandArguments>
