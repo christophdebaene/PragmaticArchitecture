@@ -5,13 +5,8 @@ using Terminal.CommandBus;
 namespace Terminal.Tasks;
 
 [DisplayName("Create New Todo")]
-public class CreateNewTodo : Command<NoCommandArguments>
-{
-    private readonly ISender _sender;
-    public CreateNewTodo(ISender sender)
-    {
-        _sender = sender;
-    }
+public class CreateNewTodo(ISender sender) : Command<NoCommandArguments>
+{ 
     public override async Task ExecuteAsync(NoCommandArguments arguments)
     {
     }

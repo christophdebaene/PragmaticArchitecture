@@ -1,15 +1,15 @@
 ﻿using System.ComponentModel;
-using MyApp.Domain;
 using Spectre.Console;
 using Terminal.CommandBus;
+using TodoApp.Infrastructure.Data;
 
 namespace Terminal.Misc;
 
 [DisplayName("Create Database")]
 public class CreateDatabase : Command<NoCommandArguments>
 {
-    private readonly MyAppContext _context;
-    public CreateDatabase(MyAppContext context)
+    private readonly ApplicationDbContext _context;
+    public CreateDatabase(ApplicationDbContext context)
     {
         _context = context;
     }

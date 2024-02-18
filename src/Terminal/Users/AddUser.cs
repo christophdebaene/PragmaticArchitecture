@@ -6,13 +6,8 @@ using Terminal.CommandBus;
 namespace Terminal.Users;
 
 [DisplayName("Add User")]
-public class AddUser : Command<CommandArguments>
-{
-    private readonly ISender _sender;
-    public AddUser(ISender sender)
-    {
-        _sender = sender;
-    }
+public class AddUser(ISender sender) : Command<CommandArguments>
+{ 
     public override async Task ExecuteAsync(CommandArguments arguments)
     {
         AnsiConsole.Write(new FigletText("Add User"));
@@ -26,7 +21,7 @@ public class AddUser : Command<CommandArguments>
                  .AddChoices(Enum.GetNames(typeof(Role))));
         */
 
-        await _sender.Send(new MyApp.Application.Users.AddUser
+        await sender.Send(new TodoApp.Application.Features.Users.AddUser
         {
             UserId = Guid.NewGuid(),
             FirstName = firstName,

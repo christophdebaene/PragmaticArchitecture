@@ -1,4 +1,4 @@
-﻿using MyApp.Domain.Users;
+﻿using TodoApp.Domain.Users;
 
 namespace Terminal.Infrastructure;
 public class UserContext : IUserContext

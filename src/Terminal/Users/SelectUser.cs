@@ -6,18 +6,13 @@ using Terminal.CommandBus;
 namespace Terminal.Users;
 
 [DisplayName("Select User")]
-public class SelectUser : Command<NoCommandArguments>
-{
-    private readonly ISender _sender;
-    public SelectUser(ISender sender)
-    {
-        _sender = sender;
-    }
+public class SelectUser(ISender sender) : Command<NoCommandArguments>
+{    
     public override async Task ExecuteAsync(NoCommandArguments arguments)
     {
         AnsiConsole.Write(new FigletText("Select User"));
 
-        var users = await _sender.Send(new MyApp.Application.Users.GetUsers());
+        var users = await sender.Send(new TodoApp.Application.Features.Users.GetUsers());
         var table = new Table()
             .Border(TableBorder.Ascii)
             .AddColumn("FirstName")
