@@ -7,6 +7,7 @@ using Microsoft.FeatureManagement;
 using TodoApp.Application;
 using TodoApp.Infrastructure.Behaviors;
 using TodoApp.Infrastructure.Data;
+using TodoApp.Infrastructure.Data.Interceptors;
 
 namespace TodoApp.Infrastructure;
 public static class ServiceCollectionsExtensions
@@ -31,14 +32,16 @@ public static class ServiceCollectionsExtensions
     }
     public static IServiceCollection ConfigureEntityFramework(this IServiceCollection services, string connectionString)
     {
-        services.AddDbContext<ApplicationDbContext>((x) =>
+        services.AddSingleton(_ => TimeProvider.System);
+        services.AddScoped<AuditableInterceptor>();        
+        services.AddDbContext<ApplicationDbContext>((serviceProvider, options) =>
         {
-            x.UseSqlServer(connectionString);            
-            x.UseQueryTrackingBehavior(QueryTrackingBehavior.TrackAll);
+            options.UseSqlServer(connectionString);            
+            options.UseQueryTrackingBehavior(QueryTrackingBehavior.TrackAll);
+            options.AddInterceptors(serviceProvider.GetRequiredService<AuditableInterceptor>());
         });
 
         services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
-
 
         //services.AddTransient<IDbConnectionFactory, ProfiledDbConnectionFactory>();
         services.AddTransient<IDbConnectionFactory, DbConnectionFactory>();
@@ -64,6 +67,7 @@ public static class ServiceCollectionsExtensions
         foreach (var result in AssemblyScanner.FindValidatorsInAssemblies(assemblies))
             services.AddTransient(result.InterfaceType, result.ValidatorType);
 
+        ValidatorOptions.Global.DefaultRuleLevelCascadeMode = CascadeMode.Stop;
         return services;
     }
 }

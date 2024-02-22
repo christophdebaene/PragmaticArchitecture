@@ -2,6 +2,6 @@
 
 namespace TodoApp.Domain.Tasks.Events;
 
-public record TodoItemCompleted(TodoItem Item) : BaseEvent
+public record TaskItemCreated(TaskItem Item) : BaseEvent
 {    
 }

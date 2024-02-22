@@ -2,6 +2,6 @@
 
 namespace Bricks.Model;
 
-public record BaseEvent : INotification
+public abstract record BaseEvent : INotification
 {
 }

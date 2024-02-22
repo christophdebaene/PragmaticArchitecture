@@ -9,7 +9,6 @@ public abstract class ValueObject
     {
         return !EqualOperator(left, right);
     }
-
     protected abstract IEnumerable<object> GetAtomicValues();
     public override bool Equals(object obj)
     {

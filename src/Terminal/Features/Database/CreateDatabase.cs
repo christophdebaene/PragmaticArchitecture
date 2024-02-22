@@ -6,11 +6,13 @@ using TodoApp.Infrastructure.Data;
 namespace Terminal.Features.Database;
 
 [DisplayName("Create Database")]
-public class CreateDatabase(ApplicationDbContext context) : Command<NoCommandArguments>
+public class CreateDatabase(ApplicationDbContext context) : ICommand<NoCommandArguments>
 {
-    public override async Task ExecuteAsync(NoCommandArguments arguments)
+    public async ValueTask<ICommandArgument> ExecuteAsync(NoCommandArguments arguments)
     {
         AnsiConsole.Write(new FigletText("Create Database"));
         await context.Database.EnsureCreatedAsync();
+
+        return NoCommandArguments.Value;
     }
 }

@@ -10,32 +10,23 @@ namespace TodoApp.Application.Features.Tasks;
 public record GetTaskSummary : IRequest<TaskSummaryModel>
 {
 }
-public class TaskSummaryModel
+public record TaskSummaryModel
 {
     public int CompletedCount { get; set; }
     public int UncompletedLowPercentage { get; set; }
     public int UncompletedMediumPercentage { get; set; }
     public int UncompletedHighPercentage { get; set; }
-    public List<TaskModel> Top5HighPriorityTasks { get; set; } = new List<TaskModel>();
+    public List<TaskHeader> Top5HighPriorityTasks { get; set; } = [];
 }
-
-public class TaskModel
-{
-    public Guid Id { get; set; }
-    public string Title { get; set; }
-    public string Priority { get; set; }
-    public DateTime DueDate { get; set; }
-}
-
 public class GetTaskSummaryHandler(IDbConnectionFactory dbConnectionFactory, IUserContext userContext) : IRequestHandler<GetTaskSummary, TaskSummaryModel>
 {
     public async Task<TaskSummaryModel> Handle(GetTaskSummary request, CancellationToken cancellationToken)
     {
         var model = new TaskSummaryModel();
         var sql = @"
-                SELECT COUNT(*) FROM Todo WHERE IsCompleted = 1 AND Audit_CreatedBy = @UserId
-                SELECT Priority as Priority, COUNT(Priority) as Count FROM Todo WHERE IsCompleted = 0 AND Audit_CreatedBy = @UserId GROUP BY Priority
-                SELECT TOP(5) Id, Title, Priority, DueDate FROM Todo WHERE IsCompleted = 0 AND Audit_CreatedBy = @UserId ORDER By DueDate";
+        SELECT COUNT(*) FROM [TaskItem] WHERE IsCompleted = 1 AND Audit_CreatedBy = @UserId
+        SELECT Priority as Priority, COUNT(Priority) as Count FROM [TaskItem] WHERE IsCompleted = 0 AND Audit_CreatedBy = @UserId GROUP BY Priority
+        SELECT TOP(5) Id, Title, Priority FROM [TaskItem] WHERE IsCompleted = 0 AND Audit_CreatedBy = @UserId ORDER By DueDate";
 
         var connection = dbConnectionFactory.GetConnection();
 
@@ -50,17 +41,15 @@ public class GetTaskSummaryHandler(IDbConnectionFactory dbConnectionFactory, IUs
             {
                 var percentage = (int)stat.Count == 0 ? 0 : (int)((double)stat.Count / uncompletedCount * 100);
 
-                if (stat.Priority == TodoPriority.Low.ToString())
+                if (stat.Priority == TaskPriority.Low.ToString())
                     model.UncompletedLowPercentage = percentage;
-
-                if (stat.Priority == TodoPriority.Medium.ToString())
+                else if (stat.Priority == TaskPriority.Medium.ToString())
                     model.UncompletedMediumPercentage = percentage;
-
-                if (stat.Priority == TodoPriority.High.ToString())
+                else if (stat.Priority == TaskPriority.High.ToString())
                     model.UncompletedHighPercentage = percentage;
             }
 
-            var top5 = await multi.ReadAsync<TaskModel>();
+            var top5 = await multi.ReadAsync<TaskHeader>();
             model.Top5HighPriorityTasks = top5.ToList();
 
             return model;

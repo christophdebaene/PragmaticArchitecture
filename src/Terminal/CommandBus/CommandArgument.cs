@@ -1,8 +1,8 @@
 ﻿namespace Terminal.CommandBus;
-public interface ICommandArguments
-{
+public interface ICommandArgument
+{    
 }
-public record NoCommandArguments : ICommandArguments
+public record NoCommandArguments : ICommandArgument
 {
     public static NoCommandArguments Value = new();
 }

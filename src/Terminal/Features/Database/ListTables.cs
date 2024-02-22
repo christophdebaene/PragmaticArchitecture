@@ -7,9 +7,9 @@ using TodoApp.Infrastructure.Data;
 namespace Terminal.Features.Database;
 
 [DisplayName("List Tables")]
-public class ListTables(ApplicationDbContext context) : Command<NoCommandArguments>
+public class ListTables(ApplicationDbContext context) : ICommand<NoCommandArguments>
 {
-    public override async Task ExecuteAsync(NoCommandArguments arguments)
+    public ValueTask<ICommandArgument> ExecuteAsync(NoCommandArguments arguments)
     {
         AnsiConsole.Write(new FigletText("Tables"));
                 
@@ -22,10 +22,10 @@ public class ListTables(ApplicationDbContext context) : Command<NoCommandArgumen
                 .PageSize(10)
                 .AddChoices(tables));
 
-        AnsiConsole.WriteLine($"Select {selectedTable}");
+        return ValueTask.FromResult<ICommandArgument>(new SelectedTableArgument(selectedTable));
     }
 }
 
-public record SelectedTableArgument(string Name) : ICommandArguments
+public record SelectedTableArgument(string Name) : ICommandArgument
 {    
 }

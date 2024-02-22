@@ -5,7 +5,7 @@ using TodoApp.Domain.Users;
 
 namespace TodoApp.Infrastructure.Data.Interceptors;
 
-public class AuditableEntityInterceptor(IUserContext userContext, TimeProvider timeProvider) : SaveChangesInterceptor
+public class AuditableInterceptor(IUserContext userContext, TimeProvider timeProvider) : SaveChangesInterceptor
 {
     public override InterceptionResult<int> SavingChanges(DbContextEventData eventData, InterceptionResult<int> result)
     {
@@ -32,15 +32,16 @@ public class AuditableEntityInterceptor(IUserContext userContext, TimeProvider t
             {
                 if (entry.State == EntityState.Added || entry.State == EntityState.Modified || entry.HasChangedOwnedEntities())
                 {
-                    var timestamp = timeProvider.GetUtcNow(); ;
+                    var timestamp = timeProvider.GetUtcNow();
+                    var userId = userContext.CurrentUser.Id.ToString();
 
                     auditable.Audit.Modified = timestamp;
-                    auditable.Audit.ModifiedBy = userContext.CurrentUser.Id.ToString();
+                    auditable.Audit.ModifiedBy = userId;
 
                     if (entry.State == EntityState.Added)
                     {
-                        auditable.Audit.Created = timeProvider.GetUtcNow(); ;
-                        auditable.Audit.CreatedBy = userContext.CurrentUser.Id.ToString();
+                        auditable.Audit.Created = timestamp;
+                        auditable.Audit.CreatedBy = userId;
                     }
                 }
             }

@@ -1,0 +1,31 @@
+@Api_HostAddress = http://localhost:5074
+@taskId = 25d0987e-fcff-41fc-b293-4e5611f4069e
+
+### GetTasks
+GET {{Api_HostAddress}}/tasks/
+Accept: application/json
+
+### GetTasksSummary
+GET {{Api_HostAddress}}/tasks/summary
+Accept: application/json
+
+### CreateTaskItem
+POST {{Api_HostAddress}}/tasks/
+Content-Type: application/json
+
+{
+    "TaskId": "{{$guid}}",
+    "Title": "Some Task"
+}
+
+### GetTaskDetail
+GET {{Api_HostAddress}}/task/{{taskId}}
+Accept: application/json
+
+### CompleteTaskItem
+PUT {{Api_HostAddress}}/task/{{taskId}}/complete
+Accept: application/json
+
+### DeleteTaskItem
+DELETE {{Api_HostAddress}}/task/{{taskId}}
+Accept: application/json

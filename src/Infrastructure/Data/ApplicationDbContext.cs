@@ -7,11 +7,11 @@ using TodoApp.Domain.Users;
 namespace TodoApp.Infrastructure.Data;
 public class ApplicationDbContext(DbContextOptions options) : DbContext(options), IApplicationDbContext
 {
-    public DbSet<TodoItem> Tasks { get; set; }
+    public DbSet<TaskItem> Tasks { get; set; }
     public DbSet<User> Users { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-    }
+    }    
 }
