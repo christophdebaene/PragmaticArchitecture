@@ -4,10 +4,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.FeatureManagement;
+using Quartz;
 using TodoApp.Application;
 using TodoApp.Infrastructure.Behaviors;
-using TodoApp.Infrastructure.Data;
-using TodoApp.Infrastructure.Data.Interceptors;
+using TodoApp.Infrastructure.Database;
+using TodoApp.Infrastructure.Database.Interceptors;
+using TodoApp.Infrastructure.Jobs;
 
 namespace TodoApp.Infrastructure;
 public static class ServiceCollectionsExtensions
@@ -22,6 +24,7 @@ public static class ServiceCollectionsExtensions
         return services
             .ConfigureMediatR(s_assemblies)
             .ConfigureFluentValidation(s_assemblies)
+            .ConfigureJobs()
             .ConfigureFeatures()
             .ConfigureEntityFramework(configuration.GetConnectionString("TodoApp"));
     }
@@ -29,6 +32,18 @@ public static class ServiceCollectionsExtensions
     {
         services.AddFeatureManagement();
         return services;
+    }
+    static IServiceCollection ConfigureJobs(this IServiceCollection services)
+    {        
+        var jobKey = new JobKey(nameof(OutboxMessageJob));
+
+        return services.AddQuartz(configure =>
+        {
+            configure.AddJob<OutboxMessageJob>(jobKey)
+                .AddTrigger(trigger => trigger.ForJob(jobKey)
+                .WithSimpleSchedule(schedule => schedule.WithIntervalInSeconds(10).RepeatForever()));
+        })
+        .AddQuartzHostedService();
     }
     public static IServiceCollection ConfigureEntityFramework(this IServiceCollection services, string connectionString)
     {
@@ -41,9 +56,7 @@ public static class ServiceCollectionsExtensions
             options.AddInterceptors(serviceProvider.GetRequiredService<AuditableInterceptor>());
         });
 
-        services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
-
-        //services.AddTransient<IDbConnectionFactory, ProfiledDbConnectionFactory>();
+        services.AddScoped<IApplicationDbContext, ApplicationDbContext>();        
         services.AddTransient<IDbConnectionFactory, DbConnectionFactory>();
         //services.AddScoped<IUserRepository, UserRepository>();
 

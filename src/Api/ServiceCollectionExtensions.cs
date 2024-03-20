@@ -12,5 +12,5 @@ public static class ServiceCollectionExtensions
             .AddSwaggerGen();
 
         return services;
-    }
+    }    
 }

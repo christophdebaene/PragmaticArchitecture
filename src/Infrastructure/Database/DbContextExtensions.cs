@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
-namespace TodoApp.Infrastructure.Data;
+namespace TodoApp.Infrastructure.Database;
 
 public static class DbContextExtensions
 {    

@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using TodoApp.Application;
 
-namespace TodoApp.Infrastructure.Data;
+namespace TodoApp.Infrastructure.Database;
 public class DbConnectionFactory(ApplicationDbContext context) : IDbConnectionFactory
 {
     public DbConnection GetConnection()

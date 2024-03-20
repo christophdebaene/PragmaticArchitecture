@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Spectre.Console;
 using Terminal.CommandBus;
-using TodoApp.Infrastructure.Data;
+using TodoApp.Infrastructure.Database;
 
 namespace Terminal.Features.Database;
 

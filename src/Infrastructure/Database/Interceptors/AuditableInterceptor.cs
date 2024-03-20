@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using TodoApp.Domain.Users;
 
-namespace TodoApp.Infrastructure.Data.Interceptors;
+namespace TodoApp.Infrastructure.Database.Interceptors;
 
 public class AuditableInterceptor(IUserContext userContext, TimeProvider timeProvider) : SaveChangesInterceptor
 {

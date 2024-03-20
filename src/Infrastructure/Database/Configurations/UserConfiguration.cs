@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using TodoApp.Domain.Users;
 
-namespace TodoApp.Infrastructure.Data.Configurations;
+namespace TodoApp.Infrastructure.Database.Configurations;
 
 public class UserConfiguration : IEntityTypeConfiguration<User>
 {
