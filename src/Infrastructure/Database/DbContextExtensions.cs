@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace TodoApp.Infrastructure.Database;
-
 public static class DbContextExtensions
 {    
     public static bool HasChangedOwnedEntities(this EntityEntry entry)

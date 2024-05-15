@@ -1,11 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using Ardalis.Result;
+﻿using Ardalis.Result;
 using Bricks.Model;
 using TodoApp.Domain.Tasks.Events;
 
 namespace TodoApp.Domain.Tasks;
-
-[Table(nameof(TaskItem))]
 public class TaskItem : BaseEntity, IAuditable
 {
     public Guid Id { get; set; }
