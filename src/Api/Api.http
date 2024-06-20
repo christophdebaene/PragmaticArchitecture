@@ -14,18 +14,22 @@ POST {{Api_HostAddress}}/tasks/
 Content-Type: application/json
 
 {
-    "TaskId": "{{$guid}}",
-    "Title": "Some Task"
+    "TaskId": "{{taskId}}",
+    "Title": "Some Task 1324567987897987987987897"
 }
 
+### Increase Priority
+PUT {{Api_HostAddress}}/tasks/{{taskId}}/priority/increase
+Accept: application/json
+
 ### GetTaskDetail
-GET {{Api_HostAddress}}/task/{{taskId}}
+GET {{Api_HostAddress}}/tasks/{{taskId}}
 Accept: application/json
 
 ### CompleteTaskItem
-PUT {{Api_HostAddress}}/task/{{taskId}}/complete
+PUT {{Api_HostAddress}}/tasks/{{taskId}}/complete
 Accept: application/json
 
 ### DeleteTaskItem
-DELETE {{Api_HostAddress}}/task/{{taskId}}
+DELETE {{Api_HostAddress}}/tasks/{{taskId}}
 Accept: application/json

@@ -27,8 +27,8 @@ public class TaskItem : BaseEntity, IAuditable
     public Result Complete()
     {
         if (IsCompleted)
-            return Errors.AlreadyCompleted(Title);
-        
+            return Errors.AlreadyCompleted(Id);
+
         IsCompleted = true;
         AddDomainEvent(new TaskItemCompleted(this));
         return Result.Success();
@@ -37,7 +37,7 @@ public class TaskItem : BaseEntity, IAuditable
     public Result IncreasePriority()
     {
         if (IsCompleted)
-            return Errors.AlreadyCompleted(Title);
+            return Errors.AlreadyCompleted(Id);
 
         switch (Priority)
         {
@@ -48,7 +48,7 @@ public class TaskItem : BaseEntity, IAuditable
                 Priority = TaskPriority.High;
                 break;
             case TaskPriority.High:
-                return Errors.HighestPriority();
+                return Errors.HighestPriority(Id);
         }
 
         return Result.Success();
@@ -57,12 +57,12 @@ public class TaskItem : BaseEntity, IAuditable
     public Result DecreasePriority()
     {
         if (IsCompleted)
-            return Errors.AlreadyCompleted(Title);
+            return Errors.AlreadyCompleted(Id);
 
         switch (Priority)
         {
             case TaskPriority.Low:
-                return Errors.LowestPriority();
+                return Errors.LowestPriority(Id);
             case TaskPriority.Medium:
                 Priority = TaskPriority.Low;
                 break;
@@ -73,8 +73,9 @@ public class TaskItem : BaseEntity, IAuditable
 
         return Result.Success();
     }
-    public void SetDueDate(DateTime dateTime)
+    public Result SetDueDate(DateTime dateTime)
     {
         DueDate = dateTime;
+        return Result.Success();
     }
 }

@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using Ardalis.Result.AspNetCore;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using TodoApp.Application.Features.Tasks;
 
@@ -10,36 +11,49 @@ public static class TasksEndpoint
         app.MapGet("/tasks", async (ISender sender) =>
         {
             var response = await sender.Send(new GetTasks());
-            return response;
+            return response.ToMinimalApiResult();
         });
 
         app.MapGet("/tasks/summary", async (ISender sender) =>
         {
             var response = await sender.Send(new GetTaskSummary());
-            return response;
+            return response.ToMinimalApiResult();
         });
 
-        app.MapGet("/task/{id}", async (ISender sender, Guid id) =>
+        app.MapGet("/tasks/{id}", async (ISender sender, Guid id) =>
         {
             var response = await sender.Send(new GetTaskDetail(id));
-            return response;
+            return response.ToMinimalApiResult();
         });
 
-        app.MapPut("/task/{id}/complete", async (ISender sender, Guid id) =>
+        app.MapPut("/tasks/{id}/complete", async (ISender sender, Guid id) =>
         {
-            await sender.Send(new CompleteTaskItem(id));
-            return Results.Ok();
+            var response = await sender.Send(new CompleteTaskItem(id));
+            return response.ToMinimalApiResult();
         });
 
-        app.MapDelete("/task/{id}", async (ISender sender, Guid id) =>
+        app.MapPut("/tasks/{id}/priority/increase", async (ISender sender, Guid id) =>
         {
-            await sender.Send(new DeleteTaskItem(id));
-            return Results.Ok();
+            var response = await sender.Send(new IncreasePriority(id));
+            return response.ToMinimalApiResult();
+        });
+
+        app.MapPut("/tasks/{id}/priority/decrease", async (ISender sender, Guid id) =>
+        {
+            var response = await sender.Send(new DecreasePriority(id));
+            return response.ToMinimalApiResult();
+        });
+
+        app.MapDelete("/tasks/{id}", async (ISender sender, Guid id) =>
+        {
+            var response = await sender.Send(new DeleteTaskItem(id));
+            return response.ToMinimalApiResult();
         });
 
         app.MapPost("/tasks", async (ISender sender, [FromBody] CreateTaskItem create) =>
         {
-            await sender.Send(create);
+            var response = await sender.Send(create);
+            return response.ToMinimalApiResult();
         });
 
         return app;

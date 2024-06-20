@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace TodoApp.Infrastructure.Database.Interceptors;
 public class DispatchDomainEventsInterceptor(IPublisher publisher) : SaveChangesInterceptor
-{    
+{
     public override InterceptionResult<int> SavingChanges(DbContextEventData eventData, InterceptionResult<int> result)
     {
         DispatchDomainEvents(eventData.Context).GetAwaiter().GetResult();

@@ -11,7 +11,7 @@ public class MenuItem
 {
     public Type CommandType { get; set; }
     public List<MenuItem> Items { get; set; } = [];
-    public MenuItem Parent {get; set; }
+    public MenuItem Parent { get; set; }
     public MenuItem AddChild(Type command)
     {
         var item = new MenuItem

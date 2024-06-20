@@ -12,7 +12,7 @@ public class ListTables(ApplicationDbContext context) : ICommand<NoCommandArgume
     public ValueTask<ICommandArgument> ExecuteAsync(NoCommandArguments arguments)
     {
         AnsiConsole.Write(new FigletText("Tables"));
-                
+
         var tables = context.Database.SqlQuery<string>(
             $"SELECT [TABLE_NAME] AS [Name] FROM INFORMATION_SCHEMA.TABLES WHERE [Table_Type] = 'BASE TABLE'");
 
@@ -27,5 +27,5 @@ public class ListTables(ApplicationDbContext context) : ICommand<NoCommandArgume
 }
 
 public record SelectedTableArgument(string Name) : ICommandArgument
-{    
+{
 }

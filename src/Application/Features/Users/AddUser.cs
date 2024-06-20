@@ -1,4 +1,5 @@
-﻿using Bricks;
+﻿using Ardalis.Result;
+using Bricks;
 using FluentValidation;
 using MediatR;
 using TodoApp.Domain.Users;
@@ -6,7 +7,7 @@ using TodoApp.Domain.Users;
 namespace TodoApp.Application.Features.Users;
 
 [Command]
-public record AddUser : IRequest
+public record AddUser : IRequest<Result>
 {
     public Guid UserId { get; init; }
     public string? FirstName { get; init; }
@@ -20,11 +21,13 @@ public class AddUserValidator : AbstractValidator<AddUser>
         RuleFor(x => x.LastName).Length(1, 255);
     }
 }
-public class AddUserHandler(IApplicationDbContext context) : IRequestHandler<AddUser>
+public class AddUserHandler(IApplicationDbContext context) : IRequestHandler<AddUser, Result>
 {
-    public async Task Handle(AddUser request, CancellationToken cancellationToken)
+    public async Task<Result> Handle(AddUser request, CancellationToken cancellationToken)
     {
         var user = new User(request.UserId.ToString("D"), request.FirstName!, request.LastName!);
         await context.Users.AddAsync(user, cancellationToken);
+
+        return Result.Success();
     }
 }

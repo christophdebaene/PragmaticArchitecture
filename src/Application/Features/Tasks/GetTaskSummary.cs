@@ -1,4 +1,5 @@
-﻿using Bricks;
+﻿using Ardalis.Result;
+using Bricks;
 using Dapper;
 using MediatR;
 using TodoApp.Domain.Tasks;
@@ -7,7 +8,7 @@ using TodoApp.Domain.Users;
 namespace TodoApp.Application.Features.Tasks;
 
 [Query]
-public record GetTaskSummary : IRequest<TaskSummaryModel>
+public record GetTaskSummary : IRequest<Result<TaskSummaryModel>>
 {
 }
 public record TaskSummaryModel
@@ -18,9 +19,9 @@ public record TaskSummaryModel
     public int UncompletedHighPercentage { get; set; }
     public List<TaskHeader> Top5HighPriorityTasks { get; set; } = [];
 }
-public class GetTaskSummaryHandler(IDbConnectionFactory dbConnectionFactory, IUserContext userContext) : IRequestHandler<GetTaskSummary, TaskSummaryModel>
+public class GetTaskSummaryHandler(IDbConnectionFactory dbConnectionFactory, IUserContext userContext) : IRequestHandler<GetTaskSummary, Result<TaskSummaryModel>>
 {
-    public async Task<TaskSummaryModel> Handle(GetTaskSummary request, CancellationToken cancellationToken)
+    public async Task<Result<TaskSummaryModel>> Handle(GetTaskSummary request, CancellationToken cancellationToken)
     {
         var model = new TaskSummaryModel();
         var sql = @"
@@ -52,7 +53,7 @@ public class GetTaskSummaryHandler(IDbConnectionFactory dbConnectionFactory, IUs
             var top5 = await multi.ReadAsync<TaskHeader>();
             model.Top5HighPriorityTasks = top5.ToList();
 
-            return model;
+            return Result.Success(model);
         }
     }
 }

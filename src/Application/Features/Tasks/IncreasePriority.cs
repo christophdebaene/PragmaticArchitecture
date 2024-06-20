@@ -1,17 +1,23 @@
-﻿using Bricks;
+﻿using Ardalis.Result;
+using Bricks;
 using MediatR;
 
 namespace TodoApp.Application.Features.Tasks;
 
 [Command]
-public record IncreasePriority(Guid TaskId) : IRequest
-{    
-}
-public class IncreasePriorityHandler(IApplicationDbContext context) : IRequestHandler<IncreasePriority>
+public record IncreasePriority(Guid TaskId) : IRequest<Result>
 {
-    public async Task Handle(IncreasePriority command, CancellationToken cancellationToken)
+}
+public class IncreasePriorityHandler(IApplicationDbContext context) : IRequestHandler<IncreasePriority, Result>
+{
+    public async Task<Result> Handle(IncreasePriority command, CancellationToken cancellationToken)
     {
         var task = await context.Tasks.FindAsync([command.TaskId], cancellationToken);
-        task.IncreasePriority();        
+        if (task is null)
+        {
+            return Result.NotFound();
+        }
+
+        return task.IncreasePriority();
     }
 }

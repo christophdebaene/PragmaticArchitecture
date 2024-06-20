@@ -8,7 +8,7 @@ public class RetryEmailSenderDecorator(IEmailSender emailSender) : IEmailSender
     public async Task SendEmailAsync(string to, string from, string subject, string body)
     {
         int attempts = 0;
-        while(attempts < MAX_RETRIES)
+        while (attempts < MAX_RETRIES)
         {
             try
             {
@@ -23,7 +23,7 @@ public class RetryEmailSenderDecorator(IEmailSender emailSender) : IEmailSender
                 }
 
                 int delay = new Random().Next(500, 2000); // Delay between 0.5 to 2 seconds
-                await Task.Delay(delay);                    
+                await Task.Delay(delay);
             }
         }
     }

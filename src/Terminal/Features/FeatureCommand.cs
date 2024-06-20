@@ -8,7 +8,7 @@
 //    public ValueTask<ICommandArgument> ExecuteAsync(ICommandArgument arguments)
 //    {
 //        AnsiConsole.Write(new FigletText("Todo App"));
-        
+
 //        var selectedTable = AnsiConsole.Prompt(
 //            new SelectionPrompt<string>()
 //                .Title("Please make a selection")

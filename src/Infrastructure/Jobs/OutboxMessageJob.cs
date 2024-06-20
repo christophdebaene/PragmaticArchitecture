@@ -17,7 +17,7 @@ public class OutboxMessageJob(ApplicationDbContext dbContext, IPublisher publish
             .Take(20)
             .ToListAsync(context.CancellationToken);
 
-        foreach(var outboxMessage in messages)
+        foreach (var outboxMessage in messages)
         {
             var domainEvent = JsonSerializer.Deserialize<IDomainEvent>(outboxMessage.Content);
             if (domainEvent is null)

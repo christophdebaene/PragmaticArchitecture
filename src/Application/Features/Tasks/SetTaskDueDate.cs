@@ -1,17 +1,23 @@
-﻿using Bricks;
+﻿using Ardalis.Result;
+using Bricks;
 using MediatR;
 
 namespace TodoApp.Application.Features.Tasks;
 
 [Command]
-public record SetTaskDueDate(Guid TaskId, DateTime DueDate) : IRequest
-{    
-}
-public class SetTaskDueDateHandler(IApplicationDbContext context) : IRequestHandler<SetTaskDueDate>
+public record SetTaskDueDate(Guid TaskId, DateTime DueDate) : IRequest<Result>
 {
-    public async Task Handle(SetTaskDueDate command, CancellationToken cancellationToken)
+}
+public class SetTaskDueDateHandler(IApplicationDbContext context) : IRequestHandler<SetTaskDueDate, Result>
+{
+    public async Task<Result> Handle(SetTaskDueDate command, CancellationToken cancellationToken)
     {
         var task = await context.Tasks.FindAsync([command.TaskId], cancellationToken);
-        task.SetDueDate(command.DueDate);
+        if (task is null)
+        {
+            return Result.NotFound();
+        }
+
+        return task.SetDueDate(command.DueDate);
     }
 }

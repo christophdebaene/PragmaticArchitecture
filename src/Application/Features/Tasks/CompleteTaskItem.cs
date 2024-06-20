@@ -1,17 +1,23 @@
-﻿using Bricks;
+﻿using Ardalis.Result;
+using Bricks;
 using MediatR;
 
 namespace TodoApp.Application.Features.Tasks;
 
 [Command]
-public record CompleteTaskItem(Guid TaskId) : IRequest
+public record CompleteTaskItem(Guid TaskId) : IRequest<Result>
 {
 }
-public class CompleteTaskItemHandler(IApplicationDbContext context) : IRequestHandler<CompleteTaskItem>
+public class CompleteTaskItemHandler(IApplicationDbContext context) : IRequestHandler<CompleteTaskItem, Result>
 {
-    public async Task Handle(CompleteTaskItem command, CancellationToken cancellationToken)
+    public async Task<Result> Handle(CompleteTaskItem command, CancellationToken cancellationToken)
     {
         var task = await context.Tasks.FindAsync([command.TaskId], cancellationToken);
-        task.Complete();        
+        if (task is null)
+        {
+            return Result.NotFound();
+        }
+
+        return task.Complete();
     }
 }

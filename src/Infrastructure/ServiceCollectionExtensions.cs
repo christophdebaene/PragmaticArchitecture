@@ -24,7 +24,7 @@ public static class ServiceCollectionsExtensions
         return services
             .ConfigureMediatR(s_assemblies)
             .ConfigureFluentValidation(s_assemblies)
-            .ConfigureJobs()
+            //.ConfigureJobs()
             .ConfigureFeatures()
             .ConfigureEntityFramework(configuration.GetConnectionString("TodoApp"));
     }
@@ -34,7 +34,7 @@ public static class ServiceCollectionsExtensions
         return services;
     }
     static IServiceCollection ConfigureJobs(this IServiceCollection services)
-    {        
+    {
         var jobKey = new JobKey(nameof(OutboxMessageJob));
 
         return services.AddQuartz(configure =>
@@ -48,15 +48,15 @@ public static class ServiceCollectionsExtensions
     public static IServiceCollection ConfigureEntityFramework(this IServiceCollection services, string connectionString)
     {
         services.AddSingleton(_ => TimeProvider.System);
-        services.AddScoped<AuditableInterceptor>();        
+        services.AddScoped<AuditableInterceptor>();
         services.AddDbContext<ApplicationDbContext>((serviceProvider, options) =>
         {
-            options.UseSqlServer(connectionString);            
+            options.UseSqlServer(connectionString);
             options.UseQueryTrackingBehavior(QueryTrackingBehavior.TrackAll);
             options.AddInterceptors(serviceProvider.GetRequiredService<AuditableInterceptor>());
         });
 
-        services.AddScoped<IApplicationDbContext, ApplicationDbContext>();        
+        services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
         services.AddTransient<IDbConnectionFactory, DbConnectionFactory>();
         //services.AddScoped<IUserRepository, UserRepository>();
 

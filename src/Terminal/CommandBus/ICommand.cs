@@ -13,7 +13,7 @@ public interface ICommand
 public interface ICommand<TArguments> where TArguments : ICommandArgument
 {
     ValueTask<ICommandArgument> ExecuteAsync(TArguments arguments);
-    
+
 }
 
 /*
