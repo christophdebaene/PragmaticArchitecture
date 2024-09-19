@@ -3,7 +3,7 @@ using Bricks;
 using MediatR;
 
 namespace TodoApp.Infrastructure.Behaviors;
-public class TransactionBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+public class TransactionBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : notnull
 {
     static TransactionOptions s_transactionOptions = new()
     {
