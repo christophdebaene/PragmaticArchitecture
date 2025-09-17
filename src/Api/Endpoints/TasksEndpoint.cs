@@ -1,5 +1,5 @@
 ﻿using Ardalis.Result.AspNetCore;
-using MediatR;
+using Mediator;
 using Microsoft.AspNetCore.Mvc;
 using TodoApp.Application.Features.Tasks;
 

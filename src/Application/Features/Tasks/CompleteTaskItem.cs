@@ -1,6 +1,6 @@
 ﻿using Ardalis.Result;
 using Bricks;
-using MediatR;
+using Mediator;
 
 namespace TodoApp.Application.Features.Tasks;
 
@@ -10,7 +10,7 @@ public record CompleteTaskItem(Guid TaskId) : IRequest<Result>
 }
 public class CompleteTaskItemHandler(IApplicationDbContext context) : IRequestHandler<CompleteTaskItem, Result>
 {
-    public async Task<Result> Handle(CompleteTaskItem command, CancellationToken cancellationToken)
+    public async ValueTask<Result> Handle(CompleteTaskItem command, CancellationToken cancellationToken)
     {
         var task = await context.Tasks.FindAsync([command.TaskId], cancellationToken);
         if (task is null)

@@ -1,6 +1,6 @@
 ﻿using Ardalis.Result;
 using Bricks;
-using MediatR;
+using Mediator;
 using TodoApp.Domain.Tasks;
 using TodoApp.Domain.Users;
 
@@ -15,7 +15,7 @@ public record TaskDetailModel(Guid Id, string Title, TaskPriority Priority, bool
 }
 public class GetTodoDetailHandler(IApplicationDbContext context, IUserContext userContext) : IRequestHandler<GetTaskDetail, Result<TaskDetailModel>>
 {
-    public async Task<Result<TaskDetailModel>> Handle(GetTaskDetail request, CancellationToken cancellationToken)
+    public async ValueTask<Result<TaskDetailModel>> Handle(GetTaskDetail request, CancellationToken cancellationToken)
     {
         var task = await context.Tasks.FindAsync([request.TaskId], cancellationToken);
         if (task is null)

@@ -1,6 +1,6 @@
 ﻿using Ardalis.Result;
 using Bricks;
-using MediatR;
+using Mediator;
 using TodoApp.Domain.Users;
 
 namespace TodoApp.Application.Features.Users;
@@ -19,7 +19,7 @@ public record UserView
 }
 public class GetUsersHandler(IApplicationDbContext context) : IRequestHandler<GetUsers, Result<IReadOnlyList<UserView>>>
 {
-    public Task<Result<IReadOnlyList<UserView>>> Handle(GetUsers request, CancellationToken cancellationToken)
+    public ValueTask<Result<IReadOnlyList<UserView>>> Handle(GetUsers request, CancellationToken cancellationToken)
     {
         var result = context.Users.Select(x => new UserView
         {
@@ -28,8 +28,8 @@ public class GetUsersHandler(IApplicationDbContext context) : IRequestHandler<Ge
             LastName = x.LastName,
             SubscriptionLevel = x.SubscriptionLevel,
             Roles = x.Roles
-        });
+        }).ToList();
 
-        return Task.FromResult(Result.Success<IReadOnlyList<UserView>>([.. result]));
+        return ValueTask.FromResult(Result.Success<IReadOnlyList<UserView>>(result));
     }
 }

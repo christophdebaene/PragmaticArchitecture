@@ -22,7 +22,7 @@ public static class ServiceCollectionsExtensions
     public static IServiceCollection AddTodoApp(this IServiceCollection services, IConfiguration configuration)
     {
         return services
-            .ConfigureMediatR(s_assemblies)
+            .ConfigureMediator(s_assemblies)
             .ConfigureFluentValidation(s_assemblies)
             //.ConfigureJobs()
             .ConfigureFeatures()
@@ -62,17 +62,20 @@ public static class ServiceCollectionsExtensions
 
         return services;
     }
-    static IServiceCollection ConfigureMediatR(this IServiceCollection services, IEnumerable<Assembly> assemblies)
+    static IServiceCollection ConfigureMediator(this IServiceCollection services, IEnumerable<Assembly> assemblies)
     {
         return services
-            .AddMediatR(cfg =>
+            .AddMediator(options =>
             {
-                cfg.RegisterServicesFromAssemblies(assemblies.ToArray())
-                    .AddOpenBehavior(typeof(LoggingBehavior<,>))
-                    .AddOpenBehavior(typeof(MiniProfilerBehavior<,>))
-                    .AddOpenBehavior(typeof(ValidationBehavior<,>))
-                    .AddOpenBehavior(typeof(TransactionBehavior<,>))
-                    .AddOpenBehavior(typeof(UnitOfWorkBehavior<,>));
+                options.ServiceLifetime = ServiceLifetime.Scoped;
+                options.PipelineBehaviors =
+                [
+                    typeof(LoggingBehavior<,>),
+                    typeof(MiniProfilerBehavior<,>),
+                    typeof(ValidationBehavior<,>),
+                    typeof(TransactionBehavior<,>),
+                    typeof(UnitOfWorkBehavior<,>)
+                ];
             });
     }
     static IServiceCollection ConfigureFluentValidation(this IServiceCollection services, IEnumerable<Assembly> assemblies)

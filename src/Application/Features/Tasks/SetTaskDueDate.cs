@@ -1,6 +1,6 @@
 ﻿using Ardalis.Result;
 using Bricks;
-using MediatR;
+using Mediator;
 
 namespace TodoApp.Application.Features.Tasks;
 
@@ -10,7 +10,7 @@ public record SetTaskDueDate(Guid TaskId, DateTime DueDate) : IRequest<Result>
 }
 public class SetTaskDueDateHandler(IApplicationDbContext context) : IRequestHandler<SetTaskDueDate, Result>
 {
-    public async Task<Result> Handle(SetTaskDueDate command, CancellationToken cancellationToken)
+    public async ValueTask<Result> Handle(SetTaskDueDate command, CancellationToken cancellationToken)
     {
         var task = await context.Tasks.FindAsync([command.TaskId], cancellationToken);
         if (task is null)

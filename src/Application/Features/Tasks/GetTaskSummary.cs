@@ -1,7 +1,7 @@
 ﻿using Ardalis.Result;
 using Bricks;
 using Dapper;
-using MediatR;
+using Mediator;
 using TodoApp.Domain.Tasks;
 using TodoApp.Domain.Users;
 
@@ -21,7 +21,7 @@ public record TaskSummaryModel
 }
 public class GetTaskSummaryHandler(IDbConnectionFactory dbConnectionFactory, IUserContext userContext) : IRequestHandler<GetTaskSummary, Result<TaskSummaryModel>>
 {
-    public async Task<Result<TaskSummaryModel>> Handle(GetTaskSummary request, CancellationToken cancellationToken)
+    public async ValueTask<Result<TaskSummaryModel>> Handle(GetTaskSummary request, CancellationToken cancellationToken)
     {
         var model = new TaskSummaryModel();
         var sql = @"

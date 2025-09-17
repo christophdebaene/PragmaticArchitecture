@@ -1,15 +1,15 @@
 ﻿using Bricks;
-using MediatR;
+using Mediator;
 using TodoApp.Application;
 
 namespace TodoApp.Infrastructure.Behaviors;
-public class UnitOfWorkBehavior<TRequest, TResponse>(IApplicationDbContext context) : IPipelineBehavior<TRequest, TResponse> where TRequest : notnull
+public class UnitOfWorkBehavior<TMessage, TResponse>(IApplicationDbContext context) : IPipelineBehavior<TMessage, TResponse> where TMessage : IMessage
 {
-    public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
+    public async ValueTask<TResponse> Handle(TMessage message, MessageHandlerDelegate<TMessage, TResponse> next, CancellationToken cancellationToken)
     {
-        var response = await next();
+        var response = await next(message, cancellationToken);
 
-        if (request.GetType().IsCommand())
+        if (message.GetType().IsCommand())
         {
             await context.SaveChangesAsync(cancellationToken);
         }

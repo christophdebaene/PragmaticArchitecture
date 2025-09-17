@@ -1,6 +1,6 @@
 ﻿using Ardalis.Result;
 using Bricks;
-using MediatR;
+using Mediator;
 using Microsoft.EntityFrameworkCore;
 using TodoApp.Domain.Tasks;
 using TodoApp.Domain.Users;
@@ -15,7 +15,7 @@ public record TaskHeader(Guid Id, string Title, TaskPriority Priority);
 
 public class GetTasksHandler(IApplicationDbContext context, IUserContext userContext) : IRequestHandler<GetTasks, Result<IReadOnlyList<TaskHeader>>>
 {
-    public async Task<Result<IReadOnlyList<TaskHeader>>> Handle(GetTasks query, CancellationToken cancellationToken)
+    public async ValueTask<Result<IReadOnlyList<TaskHeader>>> Handle(GetTasks query, CancellationToken cancellationToken)
     {
         var tasks = await context.Tasks
            .AsNoTracking()

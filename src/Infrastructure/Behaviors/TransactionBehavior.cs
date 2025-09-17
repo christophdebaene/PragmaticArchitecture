@@ -1,29 +1,29 @@
 ﻿using System.Transactions;
 using Bricks;
-using MediatR;
+using Mediator;
 
 namespace TodoApp.Infrastructure.Behaviors;
-public class TransactionBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : notnull
+public class TransactionBehavior<TMessage, TResponse> : IPipelineBehavior<TMessage, TResponse> where TMessage : IMessage
 {
     static TransactionOptions s_transactionOptions = new()
     {
         IsolationLevel = IsolationLevel.ReadCommitted,
         Timeout = TransactionManager.MaximumTimeout
     };
-    public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
+    public async ValueTask<TResponse> Handle(TMessage message, MessageHandlerDelegate<TMessage, TResponse> next, CancellationToken cancellationToken)
     {
-        if (request.GetType().IsCommand())
+        if (message.GetType().IsCommand())
         {
             using (var scope = new TransactionScope(TransactionScopeOption.Required, s_transactionOptions, TransactionScopeAsyncFlowOption.Enabled))
             {
-                var response = await next();
+                var response = await next(message, cancellationToken);
                 scope.Complete();
                 return response;
             }
         }
         else
         {
-            return await next();
+            return await next(message, cancellationToken);
         }
     }
 }

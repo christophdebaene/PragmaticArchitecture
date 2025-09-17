@@ -1,7 +1,7 @@
 ﻿using Ardalis.Result;
 using Bricks;
 using FluentValidation;
-using MediatR;
+using Mediator;
 using TodoApp.Domain.Tasks;
 
 namespace TodoApp.Application.Features.Tasks;
@@ -20,7 +20,7 @@ public class CreateTaskItemValidator : AbstractValidator<CreateTaskItem>
 }
 public class CreateTaskItemHandler(IApplicationDbContext context) : IRequestHandler<CreateTaskItem, Result>
 {
-    public async Task<Result> Handle(CreateTaskItem command, CancellationToken cancellationToken)
+    public async ValueTask<Result> Handle(CreateTaskItem command, CancellationToken cancellationToken)
     {
         var task = new TaskItem(command.TaskId, command.Title);
         await context.Tasks.AddAsync(task, cancellationToken);

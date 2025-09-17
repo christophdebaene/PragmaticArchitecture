@@ -1,6 +1,6 @@
 ﻿using Ardalis.Result;
 using Bricks;
-using MediatR;
+using Mediator;
 
 namespace TodoApp.Application.Features.Tasks;
 
@@ -10,7 +10,7 @@ public record DecreasePriority(Guid TaskId) : IRequest<Result>
 }
 public class DecreasePriorityHandler(IApplicationDbContext context) : IRequestHandler<DecreasePriority, Result>
 {
-    public async Task<Result> Handle(DecreasePriority command, CancellationToken cancellationToken)
+    public async ValueTask<Result> Handle(DecreasePriority command, CancellationToken cancellationToken)
     {
         var todo = await context.Tasks.FindAsync([command.TaskId], cancellationToken: cancellationToken);
         if (todo is null)

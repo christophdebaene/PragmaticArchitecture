@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
 using Bricks.Model;
-using MediatR;
+using Mediator;
 using Microsoft.EntityFrameworkCore;
 using Quartz;
 using TodoApp.Infrastructure.Database;
