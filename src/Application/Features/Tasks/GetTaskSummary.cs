@@ -1,14 +1,11 @@
 ﻿using Ardalis.Result;
-using Bricks;
 using Dapper;
 using Mediator;
 using TodoApp.Domain.Tasks;
 using TodoApp.Domain.Users;
 
 namespace TodoApp.Application.Features.Tasks;
-
-[Query]
-public record GetTaskSummary : IRequest<Result<TaskSummaryModel>>
+public record GetTaskSummary : IQuery<Result<TaskSummaryModel>>
 {
 }
 public record TaskSummaryModel
@@ -19,7 +16,7 @@ public record TaskSummaryModel
     public int UncompletedHighPercentage { get; set; }
     public List<TaskHeader> Top5HighPriorityTasks { get; set; } = [];
 }
-public class GetTaskSummaryHandler(IDbConnectionFactory dbConnectionFactory, IUserContext userContext) : IRequestHandler<GetTaskSummary, Result<TaskSummaryModel>>
+public class GetTaskSummaryHandler(IDbConnectionFactory dbConnectionFactory, IUserContext userContext) : IQueryHandler<GetTaskSummary, Result<TaskSummaryModel>>
 {
     public async ValueTask<Result<TaskSummaryModel>> Handle(GetTaskSummary request, CancellationToken cancellationToken)
     {

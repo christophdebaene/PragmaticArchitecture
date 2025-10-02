@@ -3,12 +3,10 @@ using Bricks;
 using Mediator;
 
 namespace TodoApp.Application.Features.Tasks;
-
-[Command]
-public record SetTaskDueDate(Guid TaskId, DateTime DueDate) : IRequest<Result>
+public record SetTaskDueDate(Guid TaskId, DateTime DueDate) : ICommand<Result>
 {
 }
-public class SetTaskDueDateHandler(IApplicationDbContext context) : IRequestHandler<SetTaskDueDate, Result>
+public class SetTaskDueDateHandler(IApplicationDbContext context) : ICommandHandler<SetTaskDueDate, Result>
 {
     public async ValueTask<Result> Handle(SetTaskDueDate command, CancellationToken cancellationToken)
     {

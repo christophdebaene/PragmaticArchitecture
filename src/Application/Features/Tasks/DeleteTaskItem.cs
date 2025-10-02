@@ -4,11 +4,10 @@ using Mediator;
 
 namespace TodoApp.Application.Features.Tasks;
 
-[Command]
-public record DeleteTaskItem(Guid TaskItem) : IRequest<Result>
+public record DeleteTaskItem(Guid TaskItem) : ICommand<Result>
 {
 }
-public class DeleteTaskHandler(IApplicationDbContext context) : IRequestHandler<DeleteTaskItem, Result>
+public class DeleteTaskHandler(IApplicationDbContext context) : ICommandHandler<DeleteTaskItem, Result>
 {
     public async ValueTask<Result> Handle(DeleteTaskItem command, CancellationToken cancellationToken)
     {

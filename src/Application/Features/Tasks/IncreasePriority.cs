@@ -3,12 +3,10 @@ using Bricks;
 using Mediator;
 
 namespace TodoApp.Application.Features.Tasks;
-
-[Command]
-public record IncreasePriority(Guid TaskId) : IRequest<Result>
+public record IncreasePriority(Guid TaskId) : ICommand<Result>
 {
 }
-public class IncreasePriorityHandler(IApplicationDbContext context) : IRequestHandler<IncreasePriority, Result>
+public class IncreasePriorityHandler(IApplicationDbContext context) : ICommandHandler<IncreasePriority, Result>
 {
     public async ValueTask<Result> Handle(IncreasePriority command, CancellationToken cancellationToken)
     {

@@ -1,19 +1,16 @@
 ﻿using Ardalis.Result;
-using Bricks;
 using Mediator;
 using Microsoft.EntityFrameworkCore;
 using TodoApp.Domain.Tasks;
 using TodoApp.Domain.Users;
 
 namespace TodoApp.Application.Features.Tasks;
-
-[Query]
-public record GetTasks : IRequest<Result<IReadOnlyList<TaskHeader>>>
+public record GetTasks : IQuery<Result<IReadOnlyList<TaskHeader>>>
 {
 }
 public record TaskHeader(Guid Id, string Title, TaskPriority Priority);
 
-public class GetTasksHandler(IApplicationDbContext context, IUserContext userContext) : IRequestHandler<GetTasks, Result<IReadOnlyList<TaskHeader>>>
+public class GetTasksHandler(IApplicationDbContext context, IUserContext userContext) : IQueryHandler<GetTasks, Result<IReadOnlyList<TaskHeader>>>
 {
     public async ValueTask<Result<IReadOnlyList<TaskHeader>>> Handle(GetTasks query, CancellationToken cancellationToken)
     {

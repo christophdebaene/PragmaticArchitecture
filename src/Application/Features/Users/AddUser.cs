@@ -5,9 +5,7 @@ using Mediator;
 using TodoApp.Domain.Users;
 
 namespace TodoApp.Application.Features.Users;
-
-[Command]
-public record AddUser : IRequest<Result>
+public record AddUser : ICommand<Result>
 {
     public Guid UserId { get; init; }
     public string? FirstName { get; init; }
@@ -21,7 +19,7 @@ public class AddUserValidator : AbstractValidator<AddUser>
         RuleFor(x => x.LastName).Length(1, 255);
     }
 }
-public class AddUserHandler(IApplicationDbContext context) : IRequestHandler<AddUser, Result>
+public class AddUserHandler(IApplicationDbContext context) : ICommandHandler<AddUser, Result>
 {
     public async ValueTask<Result> Handle(AddUser request, CancellationToken cancellationToken)
     {

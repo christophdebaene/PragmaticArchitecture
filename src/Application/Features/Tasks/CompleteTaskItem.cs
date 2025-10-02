@@ -1,14 +1,11 @@
 ﻿using Ardalis.Result;
-using Bricks;
 using Mediator;
 
 namespace TodoApp.Application.Features.Tasks;
-
-[Command]
-public record CompleteTaskItem(Guid TaskId) : IRequest<Result>
+public record CompleteTaskItem(Guid TaskId) : ICommand<Result>
 {
 }
-public class CompleteTaskItemHandler(IApplicationDbContext context) : IRequestHandler<CompleteTaskItem, Result>
+public class CompleteTaskItemHandler(IApplicationDbContext context) : ICommandHandler<CompleteTaskItem, Result>
 {
     public async ValueTask<Result> Handle(CompleteTaskItem command, CancellationToken cancellationToken)
     {
