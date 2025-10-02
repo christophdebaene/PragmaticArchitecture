@@ -1,6 +1,9 @@
 @Api_HostAddress = http://localhost:5074
 @taskId = 25d0987e-fcff-41fc-b293-4e5611f4069e
 
+### OpenApi
+GET {{Api_HostAddress}}/openapi/v1.json
+
 ### GetTasks
 GET {{Api_HostAddress}}/tasks/
 Accept: application/json
@@ -15,7 +18,7 @@ Content-Type: application/json
 
 {
     "TaskId": "{{taskId}}",
-    "Title": "Some Task 1324567987897987987987897"
+    "Title": "Some Task 123465"
 }
 
 ### Increase Priority

@@ -13,13 +13,9 @@ public static class ServiceCollectionExtensions
             options.SerializerOptions.Converters.Add(new JsonStringEnumConverter());
         });
 
-        services.AddExceptionHandler<GlobalExceptionHandler>();
-
-        services
-            .AddScoped<IUserContext, UserContext>()
-            .AddEndpointsApiExplorer()
-            .AddSwaggerGen();
-
-        return services;
+        return services
+            .AddExceptionHandler<GlobalExceptionHandler>()
+            .AddOpenApi()
+            .AddScoped<IUserContext, UserContext>();        
     }
 }
