@@ -33,18 +33,18 @@ public static class ServiceCollectionsExtensions
         services.AddFeatureManagement();
         return services;
     }
-    static IServiceCollection ConfigureJobs(this IServiceCollection services)
-    {
-        var jobKey = new JobKey(nameof(OutboxMessageJob));
+    //static IServiceCollection ConfigureJobs(this IServiceCollection services)
+    //{
+    //    var jobKey = new JobKey(nameof(OutboxMessageJob));
 
-        return services.AddQuartz(configure =>
-        {
-            configure.AddJob<OutboxMessageJob>(jobKey)
-                .AddTrigger(trigger => trigger.ForJob(jobKey)
-                .WithSimpleSchedule(schedule => schedule.WithIntervalInSeconds(10).RepeatForever()));
-        })
-        .AddQuartzHostedService();
-    }
+    //    return services.AddQuartz(configure =>
+    //    {
+    //        configure.AddJob<OutboxMessageJob>(jobKey)
+    //            .AddTrigger(trigger => trigger.ForJob(jobKey)
+    //            .WithSimpleSchedule(schedule => schedule.WithIntervalInSeconds(10).RepeatForever()));
+    //    })
+    //    .AddQuartzHostedService();
+    //}
     public static IServiceCollection ConfigureEntityFramework(this IServiceCollection services, string connectionString)
     {
         services.AddSingleton(_ => TimeProvider.System);
