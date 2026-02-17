@@ -8,16 +8,18 @@ public static class TasksEndpoint
 {
     public static IEndpointRouteBuilder MapTasks(this IEndpointRouteBuilder app)
     {
-        app.MapGet("/tasks", GetTasks);
-        app.MapGet("/tasks/summary", GetTaskSummary);
-        app.MapGet("/tasks/{id}", GetTaskDetail);
-        app.MapPut("/tasks/{id}/complete", CompleteTaskItem);
-        app.MapPut("/tasks/{id}/priority/increase", IncreasePriority);
-        app.MapPut("/tasks/{id}/priority/decrease", DecreasePriority);
-        app.MapDelete("/tasks/{id}", DeleteTaskItem);
-        app.MapPost("/tasks", CreateTaskItem);
+        var api = app.MapGroup("/api");
+
+        api.MapGet("/tasks", GetTasks).WithName(nameof(GetTasks));
+        api.MapGet("/tasks/summary", GetTaskSummary);
+        api.MapGet("/tasks/{id}", GetTaskDetail);
+        api.MapPut("/tasks/{id}/complete", CompleteTaskItem);
+        api.MapPut("/tasks/{id}/priority/increase", IncreasePriority);
+        api.MapPut("/tasks/{id}/priority/decrease", DecreasePriority);
+        api.MapDelete("/tasks/{id}", DeleteTaskItem);
+        api.MapPost("/tasks", CreateTaskItem);
         return app;
-    }   
+    }
     internal static async Task<IResult> GetTasks(ISender sender)
     {
         var response = await sender.Send(new GetTasks());

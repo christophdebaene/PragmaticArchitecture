@@ -4,12 +4,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.FeatureManagement;
-using Quartz;
 using TodoApp.Application;
 using TodoApp.Infrastructure.Behaviors;
 using TodoApp.Infrastructure.Database;
 using TodoApp.Infrastructure.Database.Interceptors;
-using TodoApp.Infrastructure.Jobs;
 
 namespace TodoApp.Infrastructure;
 public static class ServiceCollectionsExtensions
@@ -23,28 +21,15 @@ public static class ServiceCollectionsExtensions
     {
         return services
             .ConfigureMediator(s_assemblies)
-            .ConfigureFluentValidation(s_assemblies)
-            //.ConfigureJobs()
+            .ConfigureFluentValidation(s_assemblies)            
             .ConfigureFeatures()
-            .ConfigureEntityFramework(configuration.GetConnectionString("TodoApp"));
+            .ConfigureEntityFramework(configuration.GetConnectionString("Todo"));
     }
     static IServiceCollection ConfigureFeatures(this IServiceCollection services)
     {
         services.AddFeatureManagement();
         return services;
-    }
-    //static IServiceCollection ConfigureJobs(this IServiceCollection services)
-    //{
-    //    var jobKey = new JobKey(nameof(OutboxMessageJob));
-
-    //    return services.AddQuartz(configure =>
-    //    {
-    //        configure.AddJob<OutboxMessageJob>(jobKey)
-    //            .AddTrigger(trigger => trigger.ForJob(jobKey)
-    //            .WithSimpleSchedule(schedule => schedule.WithIntervalInSeconds(10).RepeatForever()));
-    //    })
-    //    .AddQuartzHostedService();
-    //}
+    }    
     public static IServiceCollection ConfigureEntityFramework(this IServiceCollection services, string connectionString)
     {
         services.AddSingleton(_ => TimeProvider.System);
@@ -70,8 +55,7 @@ public static class ServiceCollectionsExtensions
                 options.ServiceLifetime = ServiceLifetime.Scoped;
                 options.PipelineBehaviors =
                 [
-                    typeof(LoggingBehavior<,>),
-                    typeof(MiniProfilerBehavior<,>),
+                    typeof(LoggingBehavior<,>),                    
                     typeof(ValidationBehavior<,>),
                     typeof(TransactionBehavior<,>),
                     typeof(UnitOfWorkBehavior<,>)

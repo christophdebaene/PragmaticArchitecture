@@ -48,4 +48,3 @@ public class AuditableInterceptor(IUserContext userContext, TimeProvider timePro
         }
     }
 }
-

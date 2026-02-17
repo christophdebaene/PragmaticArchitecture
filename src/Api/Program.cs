@@ -6,6 +6,7 @@ using TodoApp.Infrastructure;
 using TodoApp.Infrastructure.Database;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.AddServiceDefaults();
 
 var services = builder.Services;
 services
@@ -16,12 +17,11 @@ var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
-    app.MapOpenApi();    
+    app.MapOpenApi();
     app.MapScalarApiReference(options =>
     {
         options
-            .WithTitle("Todo Application")
-            .WithSidebar(true)    
+            .WithTitle("Todo Application")            
             .WithTheme(ScalarTheme.Default)
             .WithDefaultHttpClient(ScalarTarget.Http, ScalarClient.Http11);
     });
